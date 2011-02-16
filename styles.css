@@ -289,6 +289,15 @@ div#footer {
 	position:fixed;
 	bottom:0;
 	background: url(layout/footerbg.png);
+	position:fixed;
+	bottom:0;
+}
+#footertoggler{
+	width:46px;
+	height:40px;
+	background: url(layout/uparrow.png);
+	position:fixed;
+	bottom:0;
 }
 div#sidebarfooter{
 	width:300px;

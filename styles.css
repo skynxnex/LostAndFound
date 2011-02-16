@@ -128,6 +128,7 @@ div#nav ul {
 	float:left;
 	margin:0;
 	padding:0;
+	overflow:auto;
 }
 div#nav ul li {
 	display:block;
@@ -187,6 +188,10 @@ div#sidebar ul {
 div#sidebar ul li {
 	padding:3px 0;
 }
+div#sidebar h4 {
+	clear:both;	
+}
+
 
 /* footer */
 div#footer {
@@ -208,4 +213,29 @@ div#footer p {
 }
 .clear {
 	clear:both;
+}
+
+/* List */
+#itemList {
+	list-style-type: none;
+}
+
+.thumbnail {
+	vertical-align: top;
+	width: 70px;
+	height: 60px;
+	padding: 10px 0;
+	float: left;
+}
+
+#itemList li {
+	width: 100%;
+	float: left;
+}
+
+#itemList li ul{
+	float: right;
+	margin: 0;
+	padding: 0;
+	width: 140px;
 }

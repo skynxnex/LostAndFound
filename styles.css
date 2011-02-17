@@ -134,7 +134,7 @@ div#container {
 div#header {
 	height:165px;
 	width:621px;
-	position:fixed;
+	/* position:fixed; */
 	top:0;
 	left:0;
 }

@@ -1,6 +1,7 @@
 <div id="sidebar">
 	<h4>Latest added</h4>
 		<ul id="itemList">
+		<!-- 
 			<li>
 				<img class="thumbnail" src="peakcykel.jpg" />
 				<ul id="item1">
@@ -71,7 +72,7 @@
 					<li class="when"><a href="">När:</a></li>
 					<li class="where"><a href="">Var:</a></li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 		<div id="sidebarfooter"></div>
 </div>

@@ -3,11 +3,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
+	<script src="js/list.js" type="text/javascript" language="javascript"></script>
 	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />
-	<script src="jquery.js"></script>
-	<script type="text/javascript" src="list.js"></script>
 </head>
 
 <?php	
@@ -32,14 +31,12 @@
 ?>
 	<div id="container">
 		<div id="header">
-			<h1 id="logo">Lost And Found</h1>
 			<div id="nav">
 				<ul>
 					<li id="tools">Tools</li>
 					<li class='lost'><a href='index.php?view=lost' class='selected' title='home page'>Lost</a></li>
 					<li class='found'><a href='index.php?view=found' title='CSS and XHTML web templates'>Found</a></li>
 					<li class='all'><a href='index.php?view=all' title='web scripts'>All</a></li>
-					?>
 				</ul>
 				<form action="#" method="get">
 					<p>

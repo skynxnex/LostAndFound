@@ -152,7 +152,7 @@ div#nav form {
 	float:right;
 	margin:10px 15px 0 0;
 }
-div#nav form input {
+div#nav>form input {
 	border:1px solid #416C9C;
 	background-color:#1D2F43;
 	color:#ffffff;
@@ -169,8 +169,25 @@ div#content {
 	background-color:#444444;
 }
 div#page {
-	width:67%;
+	width: 620px;
 	float:left;
+	padding: 10px;
+}
+div#title {
+	width: 600px;
+	margin-bottom: 10px;
+	border: solid 1px white;
+}
+div#item_photo {
+	width: 290px;
+	margin-right: 20px;
+	float:left;
+	border: solid 1px white;
+}
+div#item_text {
+	width: 290px;
+	float:left;
+	border: solid 1px white;
 }
 div#sidebar {
 	width:28%;

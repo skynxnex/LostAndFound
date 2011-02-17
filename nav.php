@@ -5,9 +5,9 @@
 		<li><a href="index.php?view=found" title="web scripts">found</a></li>
 	</ul>
 	<form action="#" method="get">
-		<p>
+		<div>
 			<input type="text" name="q" value="Search..." />
 			<input type="submit" value="Go" class="button" />
-		</p>
+		</div>
 	</form>
 </div>

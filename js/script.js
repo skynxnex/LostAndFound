@@ -2,10 +2,9 @@ onload = function(){
 	var originalThumbnailWidth = $('.thumbnail').width();
 	var originalThumbnailHeight = $('.thumbnail').height();
 	
-	console.debug("hej");
 	$("#footertoggler").hover(
 	function(){
-	  	console.debug("då",$(this));
+	  	//console.debug("hover element",$(this));
 	    $(this).css({
 			"background":"url(layout/uparrowg.png)"
 		});	
@@ -38,7 +37,7 @@ onload = function(){
 		$target = (event.target);
 
 			$($target).animate({
-			 height:"75%",
+			 height:"100%",
 			 width:"100%"
 			}), 2000;
 			
@@ -47,12 +46,13 @@ onload = function(){
 	$('.thumbnail').mouseleave(function (event){
 		
 		
+		
 		$target = (event.target);
 			
 			$($target).stop().animate({
 				height:originalThumbnailHeight,
 				width:originalThumbnailWidth
-			}), 2000;
+			}, 500).delay(500);
 			
 	});
 

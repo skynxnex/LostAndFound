@@ -1,3 +1,9 @@
 <div id="page">
-	<h2>Sida för ett specifikt item</h2>
+	<div id="title">
+	</div>
+	<div id="item_photo">
+	</div>
+	<div id="item_text">
+	</div>
+	
 </div>

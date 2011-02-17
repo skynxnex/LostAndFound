@@ -4,6 +4,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />
+	<script src="jquery.js"></script>
+	<script type="text/javascript" src="list.js"></script>
 </head>
 <body>
 	<div id="container">

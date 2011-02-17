@@ -18,7 +18,6 @@
 ?>
 	<div class="clear"></div>
 </div>
-<?php 
-		
+<?php 		
 		include("footer.php");
 ?>

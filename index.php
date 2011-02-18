@@ -1,7 +1,10 @@
 <?php 
-	$current = $_GET["view"];
+	if(isset($_GET["view"])){
+		$current = $_GET["view"];
+	} else {
+		$current ="";
+	}
 	include("header.php");
-	include("nav.php");
 ?>
 <div id="content">
 <?php 

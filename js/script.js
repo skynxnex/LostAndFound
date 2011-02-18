@@ -1,10 +1,9 @@
 onload = function(){
 	var originalThumbnailWidth = $('.thumbnail').width();
 	var originalThumbnailHeight = $('.thumbnail').height();
-	alert("hej");
+
 	initialize();
 	function initialize(){
-		alert("hej");
 		var latlng = new google.maps.LatLng(-34.397, 150.644);
 		var myOptions = {
 		  zoom: 8,

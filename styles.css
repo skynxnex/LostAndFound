@@ -6,6 +6,7 @@
 html, * {
 	padding:0;
 	margin:0;
+	height: 100%;
 }
 body {
 	background-color:#FFF;
@@ -14,6 +15,7 @@ body {
 	color:#999999;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
 	background:url(layout/map.png);
+	height: 100%;
 }
 
 /* headers */
@@ -347,7 +349,7 @@ div#footer p {
 
 /* Google maps */
 #map_canvas{
-	width: 800px;
-	height: 800px;
-	border: 10px solid black;
+	width: 100%;
+	height: 100%;
+	float: left;
 }

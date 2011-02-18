@@ -14,7 +14,6 @@ body {
 	font-size:1.0em;
 	color:#999999;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
-	background:url(layout/map.png);
 	height: 100%;
 }
 
@@ -115,7 +114,6 @@ code {
 /* container, header and nav */
 div#container {
 	width:100%;
-	height:1000px;
 	position:relative;
 }
 div#header {

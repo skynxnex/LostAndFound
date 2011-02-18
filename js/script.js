@@ -1,7 +1,11 @@
 onload = function(){
 	var originalThumbnailWidth = $('.thumbnail').width();
 	var originalThumbnailHeight = $('.thumbnail').height();
-
+	
+	updateViewPort();
+	$(window).resize(function(){
+        updateViewPort();
+    });
 	initialize();
 	function initialize(){
 		var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -72,11 +76,17 @@ onload = function(){
     
     function updateViewPort(){
         var viewPortHeight = $(window).height();
+        var viewPortWidth = $(window).width();
         var sidebarHeight = viewPortHeight - 101;
         console.debug("Sidebar height", sidebarHeight);
         $("#sidebar").css({
             "height": sidebarHeight + "px"
         });
-    };
+		$("map_canvas").css({
+			"height":viewPortHeight,
+			"width":viewPortWidth
+			})
+		    };
+
     
     };

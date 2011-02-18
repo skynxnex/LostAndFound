@@ -30,6 +30,8 @@
 	}
 ?>
 	<div id="container">
+		
+<div id="map_canvas"></div>
 		<div id="header">
 			<h1 id="logo">Lost And Found</h1>
 			<div id="nav">

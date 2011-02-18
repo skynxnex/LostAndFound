@@ -28,41 +28,55 @@ onload = function(){
   
 	$("#footertoggler").toggle(function(){
 		$(this).css({
-			"bottom": "190px"
-		})
-		$("#footer").css({
-			"height": "200px"
-		})
-	},function(){
-		$(this).css({
-			"bottom": "0px"
-		})
-		$("#footer").css({
-			"height": "10px"
-		})
-	});
-	
-	//Thumbnail animation
-	$('.thumbnail').mouseenter(function (event){
-		
-		$target = (event.target);
-
-			$($target).animate({
-			 height:"100%",
-			 width:"100%"
-			}), 2000;
-			
-	});
-		
-	$('.thumbnail').mouseleave(function (event){
-		
-		
-		
-		$target = (event.target);
-			
-			$($target).stop().animate({
-				height:originalThumbnailHeight,
-				width:originalThumbnailWidth
-			}, 500).delay(500);	
-	});
-};
+            "bottom": "190px",
+			"background-position":"-150px "+backgroundY
+        })
+        $("#footer").css({
+            "height": "200px"
+        })
+    }, function(){
+        console.debug("y this",$(this));
+        $(this).css({
+            "bottom": "0px",
+			"background-position":"-100px "+backgroundY
+        })
+        $("#footer").css({
+            "height": "10px"
+        })
+    });
+    
+    //Thumbnail animation
+    $('.thumbnail').mouseenter(function(event){
+    
+        $target = (event.target);
+        
+        $($target).animate({
+            height: "100%",
+            width: "100%"
+        }), 2000;
+        
+    });
+    
+    $('.thumbnail').mouseleave(function(event){
+    
+    
+    
+        $target = (event.target);
+        
+        $($target).stop().animate({
+            height: originalThumbnailHeight,
+            width: originalThumbnailWidth
+        }, 500).delay(500);
+        
+    });
+    
+    function updateViewPort(){
+        var viewPortHeight = $(window).height();
+        var sidebarHeight = viewPortHeight - 101;
+        console.debug("Sidebar height", sidebarHeight);
+        $("#sidebar").css({
+            "height": sidebarHeight + "px"
+        });
+    };
+    
+    };

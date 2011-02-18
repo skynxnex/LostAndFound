@@ -38,7 +38,6 @@
 					<li class='lost'><a href='index.php?view=lost' class='selected' title='home page'>Lost</a></li>
 					<li class='found'><a href='index.php?view=found' title='CSS and XHTML web templates'>Found</a></li>
 					<li class='all'><a href='index.php?view=all' title='web scripts'>All</a></li>
-					?>
 				</ul>
 				<form action="#" method="get">
 					<p>

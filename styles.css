@@ -17,7 +17,7 @@ body {
 }
 
 /* headers */
-body.none h1 {
+body h1 {
 	display:block;
 	text-indent:-1000px;
 	width:159px;
@@ -26,27 +26,12 @@ body.none h1 {
 	background-position:top right;
 }
 body.lost h1{
-	display:block;
-	text-indent:-1000px;
-	width:159px;
-	height:165px;
-	background: url(layout/logosprite.png);
 	background-position:bottom right;
 }
 body.found h1 {
-	display:block;
-	text-indent:-1000px;
-	width:159px;
-	height:165px;
-	background: url(layout/logosprite.png);
 	background-position:bottom left;
 }
 body.all h1 {
-	display:block;
-	text-indent:-1000px;
-	width:159px;
-	height:165px;
-	background: url(layout/logosprite.png);
 	background-position:top left;
 }
 h2 {
@@ -185,6 +170,13 @@ div#nav ul li#tools{
 	top:26px;
 	left:173px;
 }
+div#nav ul li#tools>span{
+	position:fixed;
+	top:17px;
+	left:535px;
+	display:block;
+	color:#000;
+}
 div#nav ul li.lost{
 	position:fixed;
 	top:17px;
@@ -231,24 +223,31 @@ div#nav ul li {
 	display:block;
 	float:left;
 }
-div#nav ul li a {
+div#nav ul li {
 	font-size:1.2em;
 }
 div#nav ul li a:hover {
 
 }
 div#nav form {
-	float:right;
-	margin:10px 15px 0 0;
 }
 div#nav>form input {
 	border:1px solid #416C9C;
-	color:#ffffff;
-	padding:5px;
-	font-family:"Trebuchet MS", Verdana, Arial;
+	color:#000;
+	position:fixed;
+	top:101px;
+	left:195px;
+	height:22px;
+	width:185px;
+	border:none;
+	background:none;
 }
 div#nav form input.button {
-	padding:3px;
+	top:101px;
+	left:382px;
+	height:22px;
+	width:30px;
+	text-indent:-10000px;
 }
 
 /* content */
@@ -273,7 +272,11 @@ div#item_photo {
 div#item_text {
 	width: 290px;
 	float:left;
+<<<<<<< HEAD
 	border: solid 1px white;
+=======
+	display:none;
+>>>>>>> bd1d5e7012c9612050ece585d1746f43140124e4
 }
 div#sidebar {
 	width:300px;

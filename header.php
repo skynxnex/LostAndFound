@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script src="js/jQuery-Lib.js" type="text/javascript" language="javascript"></script>
+	<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
 	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />
@@ -37,7 +37,6 @@
 					<li class='lost'><a href='index.php?view=lost' class='selected' title='home page'>Lost</a></li>
 					<li class='found'><a href='index.php?view=found' title='CSS and XHTML web templates'>Found</a></li>
 					<li class='all'><a href='index.php?view=all' title='web scripts'>All</a></li>
-					?>
 				</ul>
 				<form action="#" method="get">
 					<p>

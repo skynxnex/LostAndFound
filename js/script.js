@@ -1,6 +1,18 @@
 onload = function(){
 	var originalThumbnailWidth = $('.thumbnail').width();
 	var originalThumbnailHeight = $('.thumbnail').height();
+	alert("hej");
+	initialize();
+	function initialize(){
+		alert("hej");
+		var latlng = new google.maps.LatLng(-34.397, 150.644);
+		var myOptions = {
+		  zoom: 8,
+		  center: latlng,
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+	};
 	
 	$("#footertoggler").hover(
 	function(){
@@ -52,8 +64,6 @@ onload = function(){
 			$($target).stop().animate({
 				height:originalThumbnailHeight,
 				width:originalThumbnailWidth
-			}, 500).delay(500);
-			
+			}, 500).delay(500);	
 	});
-
 };

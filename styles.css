@@ -344,3 +344,10 @@ div#footer p {
 
 #itemList li ul{
 }
+
+/* Google maps */
+#map_canvas{
+	width: 800px;
+	height: 800px;
+	border: 10px solid black;
+}

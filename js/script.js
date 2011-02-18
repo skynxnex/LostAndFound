@@ -1,31 +1,32 @@
 onload = function(){
-    var originalThumbnailWidth = $('.thumbnail').width();
-    var originalThumbnailHeight = $('.thumbnail').height();
-    
-    
-    $(window).resize(function(){
-        updateViewPort();
-    });
-    
-    
-    
-    
-    
-    $("#footertoggler").hover(function(){
-        var backgroundX=$(this).css("background-position").split("px")[0];
-        console.debug("x",backgroundX+"px -50px");
-        $(this).css({
-            "background-position": backgroundX+"px -50px"
-        });
-    }, function(){
-        $(this).css({
-            "background-position": backgroundX+"px 0px"
-        })
-    });
-    
-    $("#footertoggler").toggle(function(){
-        var backgroundY=$(this).css("background-position").split("px")[1];
-        	console.debug("y this",$(this));
+	var originalThumbnailWidth = $('.thumbnail').width();
+	var originalThumbnailHeight = $('.thumbnail').height();
+
+	initialize();
+	function initialize(){
+		var latlng = new google.maps.LatLng(-34.397, 150.644);
+		var myOptions = {
+		  zoom: 8,
+		  center: latlng,
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+	};
+	
+	$("#footertoggler").hover(
+	function(){
+	  	//console.debug("hover element",$(this));
+	    $(this).css({
+			"background":"url(layout/uparrowg.png)"
+		});	
+  	}, 
+	function(){
+	    $(this).css({
+			"background":"url(layout/uparrow.png)"
+		})	
+  });
+  
+	$("#footertoggler").toggle(function(){
 		$(this).css({
             "bottom": "190px",
 			"background-position":"-150px "+backgroundY

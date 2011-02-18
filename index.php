@@ -19,9 +19,9 @@
 		}
 		include("sidebar.php");
 ?>
+	<div id="map_canvas"></div>
 	<div class="clear"></div>
 </div>
 <?php 
-		
-		include("footer.php");
+	include("footer.php");
 ?>

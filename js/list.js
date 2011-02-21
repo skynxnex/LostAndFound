@@ -1,24 +1,30 @@
-$(function(){
-	
+$(function() {
+
 	callAPI();
-	
+
 	function callAPI() {
-		console.debug("nu provas getJSON");
-		// $.getJSON("db.php",{'amount':'all'}, getAdds);
-		$.getJSON("db.php",getAdds);
+		$.getJSON("db.php",{'amount':'all'}, drawAdds);
 	}
-	
-	function getAdds(data) {
-		console.debug("inne i getAdds funktionen");
-		$.each(data, function(i,d) {
-			// $("<h3/>").text(ad.name).appendTo($("#itemlist"));
-//			$("<li/").appendTo($("#item"+i));
-//			$("<img class='thumbnail' src='"+ad.item_picture_link +"' />").appendTo($("#item"+i));
-//			$("<ul/>").appendTo($("#item1"));
-//			$("<li class='what'><a href=''>"+ad.description+"</a></li>").appendTo($("#item"+i));
-//			$("<li class='when'><a href=''>"+ad.timestamp+"</a></li>")
-//			$("<li class='where'><a href=''>"+ad.where_city+"</a></li>").appendTo($("#item"+i));
+
+	function drawAdds(data) {
+		$.each(data, function(i, ad) {
+			tempUl = $("<ul/>").addClass("sidebarItem"+i);
+			$("<img class='thumbnail' src='"+ad.item_picture_link+"'/>").appendTo($(tempUl));
+			$("<li/>").text(ad.lost_found).appendTo($(tempUl));
+			$("<li class='sidebarTitle'/>").text("What: "+ad.title).appendTo($(tempUl));
+			$("<li class='sidebarDescription'/>").text("Description: "+ad.description).appendTo($(tempUl));
+			$("<li/ class='sidebarTime'>").text("When: "+ad.timestamp).appendTo($(tempUl));
+			tempUl.appendTo("#itemList");
+			$(".sidebarItem"+i).click(function(event) {
+				$("#title").empty();
+				$("<h2/>").text(ad.lost_found+" : "+ad.title).appendTo("#title");
+				$("#item_photo").empty();
+				$("<img src='"+ad.item_picture_link+"'/>").appendTo("#item_photo");
+				$("#item_text").empty();
+				$("<p/>").text(ad.description).appendTo("#item_text");
+				$("<p/>").text(ad.contact_comment).appendTo("#item_text");
+				
+			});
 		});
 	};
-	
 });

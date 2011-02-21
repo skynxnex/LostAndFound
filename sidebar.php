@@ -1,5 +1,5 @@
 <div id="sidebar">
-	<h4>Latest added</h4>
+	<h2>Latest added</h2>
 		<ul id="itemList">
 		<!-- 
 			<li>

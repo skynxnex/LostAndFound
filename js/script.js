@@ -4,11 +4,8 @@ onload = function(){
 	
 	$("#footertoggler").hover(
 	function(){
-<<<<<<< HEAD
 	  	console.debug("d�",$(this));
-=======
 	  	//console.debug("hover element",$(this));
->>>>>>> bd1d5e7012c9612050ece585d1746f43140124e4
 	    $(this).css({
 			"background":"url(layout/uparrowg.png)"
 		});	

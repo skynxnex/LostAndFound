@@ -5,5 +5,4 @@
 	</div>
 	<div id="item_text">
 	</div>
-	
 </div>

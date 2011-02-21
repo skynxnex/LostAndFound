@@ -1,5 +1,10 @@
 
 		<div id="page">
-			<h2>Här i ska då vår maincontent ligga</h2>
-		</div>
+	<div id="title">
+	</div>
+	<div id="item_photo">
+	</div>
+	<div id="item_text">
+	</div>
+</div>
 		

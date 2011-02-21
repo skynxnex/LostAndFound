@@ -2,12 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<<<<<<< HEAD
 	<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
 	<script src="js/list.js" type="text/javascript" language="javascript"></script>
-=======
-	<script src="js/jQuery-Lib.js" type="text/javascript" language="javascript"></script>
->>>>>>> bd1d5e7012c9612050ece585d1746f43140124e4
 	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />

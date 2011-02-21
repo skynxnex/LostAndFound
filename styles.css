@@ -261,22 +261,18 @@ div#page {
 div#title {
 	width: 600px;
 	margin-bottom: 10px;
-	border: solid 1px white;
 }
 div#item_photo {
 	width: 290px;
 	margin-right: 20px;
 	float:left;
-	border: solid 1px white;
+}
+#item_photo img {
+	width: 290px;
 }
 div#item_text {
 	width: 290px;
 	float:left;
-<<<<<<< HEAD
-	border: solid 1px white;
-=======
-	display:none;
->>>>>>> bd1d5e7012c9612050ece585d1746f43140124e4
 }
 div#sidebar {
 	width:300px;

@@ -6,6 +6,7 @@
 html, * {
 	padding:0;
 	margin:0;
+	height: 100%;
 }
 body {
 	background-color:#FFF;
@@ -13,7 +14,7 @@ body {
 	font-size:1.0em;
 	color:#999999;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
-	background:url(layout/map.png);
+	height: 100%;
 }
 
 /* headers */
@@ -113,7 +114,6 @@ code {
 /* container, header and nav */
 div#container {
 	width:100%;
-	height:1000px;
 	position:relative;
 }
 div#header {
@@ -132,26 +132,26 @@ div#nav {
 	left:159px;
 }
 div#nav ul {
-	height:70px;
+	height:82px;
 	width:302px;
 	background:url(layout/buttonsprite.png);
 	position:fixed;
-	top:17px;
+	top:11px;
 	left:159px;
 	padding:0 14px;
 	margin:0;
 }
 
 body.lost div#nav ul{
-	background-position:0 -70px;
+	background-position:0 -82px;
 }
 
 body.found div#nav ul{
-	background-position:0 -140px;
+	background-position:0 -164px;
 }
 
 body.all div#nav ul{
-	background-position:0 -210px;
+	background-position:0 -246px;
 }
 div#nav ul li{
 	line-height:70px;
@@ -309,11 +309,12 @@ div#footer {
 	bottom:0;
 }
 #footertoggler{
-	width:46px;
-	height:40px;
-	background: url(layout/uparrow.png);
+	width:50px;
+	height:50px;
+	background: url(layout/togglesprites.png);
 	position:fixed;
 	bottom:0;
+	background-position:-100px 0;
 }
 div#sidebarfooter{
 	width:300px;
@@ -321,7 +322,7 @@ div#sidebarfooter{
 	background: url(layout/sidebarsprite.png);
 	background-position:bottom center;
 	position:fixed;
-	top:701px;
+	bottom:25px;
 	right:10px;
 }
 div#footer p {
@@ -359,4 +360,11 @@ div#footer p {
 }
 
 #itemList li ul{
+}
+
+/* Google maps */
+#map_canvas{
+	width: 100%;
+	height: 100%;
+	float: left;
 }

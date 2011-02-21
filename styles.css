@@ -261,6 +261,7 @@ div#page {
 div#title {
 	width: 600px;
 	margin-bottom: 10px;
+	height: 30px;
 }
 div#item_photo {
 	width: 290px;
@@ -269,10 +270,23 @@ div#item_photo {
 }
 #item_photo img {
 	width: 290px;
+
 }
 div#item_text {
 	width: 290px;
+	height:5px;
 	float:left;
+}
+
+div#item_contact{
+	margin-top: 150px;
+	width: 290px;
+	height:5px;
+	float: left;
+}
+
+#item_contact h3 {
+	height: 20px;
 }
 div#sidebar {
 	width:300px;
@@ -288,6 +302,7 @@ div#sidebar p {
 }
 div#sidebar ul {
 	list-style:none;
+	height:15px;
 	margin:7px 12px;
 }
 div#sidebar ul li {

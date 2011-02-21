@@ -2,15 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script src="js/jquery-1.5.js" type="text/javascript" language="javascript"></script>
+	<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
 	<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript" language="javascript"></script>
+	<script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript" language="javascript"></script>
 	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<script src="js/list.js" type="text/javascript" language="javascript"></script>
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />
 </head>
 
-<?php	
+<?php
+
+
+
+
+
 	$lostactive="";
 	$foundactive="";
 	$allactive="";
@@ -29,6 +35,7 @@
 	} else {
 		echo"<body>";
 	}
+	
 ?>
 	<div id="container">
 		

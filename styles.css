@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* beta - a free web template by spyka webmaster
    http://www.spyka.net
 */
@@ -256,9 +257,25 @@ div#nav form input.button {
 div#content {
 }
 div#page {
-	width:67%;
+	width: 620px;
 	float:left;
-	display:none;
+	padding: 10px;
+}
+div#title {
+	width: 600px;
+	margin-bottom: 10px;
+}
+div#item_photo {
+	width: 290px;
+	margin-right: 20px;
+	float:left;
+}
+#item_photo img {
+	width: 290px;
+}
+div#item_text {
+	width: 290px;
+	float:left;
 }
 div#sidebar {
 	width:300px;
@@ -276,9 +293,11 @@ div#sidebar ul {
 	list-style:none;
 	margin:7px 12px;
 }
+}
 div#sidebar ul li {
 	padding:3px 0;
 }
+>>>>>>> 2c9c9f853670e5e47eacf24f024e95558116fc9b
 div#sidebar h4 {
 	clear:both;	
 }
@@ -354,27 +373,4 @@ div#footer p {
 	width: 100%;
 	height: 100%;
 	float: left;
-	z-index: -1;
 }
-=======
-	width: 70px;
-	height: 60px;
-	padding: 10px 0;
-	float: left;
-}
-
-#itemList li {
-	width: 100%;
-	float: left;
-}
-
-#itemList li ul{
-}
-
-/* Google maps */
-#map_canvas{
-	width: 100%;
-	height: 100%;
-	float: left;
-}
->>>>>>> c3b1ed0640be19baf0b4943283b631c3608f12a8

@@ -111,10 +111,26 @@ onload = function() {
 				function(i, item) {
 					var point = new google.maps.LatLng(item.lat, item.long);
 					console.debug(item.lat, item.long);
-					var marker = new google.maps.Marker( {
+					if(item.lost_found == "lost"){
+						var image = "layout/lost-icon.png";
+						var marker = new google.maps.Marker( {
 						position : point,
+						icon: image,
 						map : map
 					});
+				} else if(coords.lost_found == "found"){
+							var image = "layout/found-icon.png";
+								var marker = new google.maps.Marker( {
+									position : point,
+									icon: image,
+									map : map
+								});
+							} else {
+								var marker = new google.maps.Marker( {
+									position : point,
+									map : map
+								});
+							}
 					markersArray.push(marker);
 				});
 		};
@@ -251,7 +267,18 @@ onload = function() {
 			"height" : viewPortHeight,
 			"width" : viewPortWidth
 		});
-
+		$("html").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
+		$("body").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
+		$("#container").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
 	}
 	;
 

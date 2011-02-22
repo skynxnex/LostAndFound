@@ -7,4 +7,6 @@
 	</div>
 	<div id="item_contact">
 	</div>
+	<div id="close">
+	</div>
 </div>

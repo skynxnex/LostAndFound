@@ -36,10 +36,27 @@ onload = function() {
 				$.each(data,
 						function(i, coords) {
 							var point = new google.maps.LatLng(coords.lat, coords.long);
-							var marker = new google.maps.Marker( {
-								position : point,
-								map : map
-							});
+							if(coords.lost_found == "lost"){
+							var image = "layout/lost-icon.png";
+							
+								var marker = new google.maps.Marker( {
+									position : point,
+									icon: image,
+									map : map
+								});
+							} else if(coords.lost_found == "found"){
+							var image = "layout/found-icon.png";
+								var marker = new google.maps.Marker( {
+									position : point,
+									icon: image,
+									map : map
+								});
+							} else {
+								var marker = new google.maps.Marker( {
+									position : point,
+									map : map
+								});
+							}
 						});
 			};
 		});

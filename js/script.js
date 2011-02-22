@@ -118,19 +118,19 @@ onload = function() {
 						icon: image,
 						map : map
 					});
-				} else if(coords.lost_found == "found"){
-							var image = "layout/found-icon.png";
-								var marker = new google.maps.Marker( {
-									position : point,
-									icon: image,
-									map : map
-								});
-							} else {
-								var marker = new google.maps.Marker( {
-									position : point,
-									map : map
-								});
-							}
+				} else if(item.lost_found == "found"){
+					var image = "layout/found-icon.png";
+						var marker = new google.maps.Marker( {
+							position : point,
+							icon: image,
+							map : map
+					});
+				} else {
+						var marker = new google.maps.Marker( {
+							position : point,
+							map : map
+						});
+				}
 					markersArray.push(marker);
 				});
 		};

@@ -1,19 +1,34 @@
 <?php
 if(isset($_GET["amount"])){
-	$current = $_GET["amount"];
+	$numbersOfItems = $_GET["amount"];
 } else {
-	$current ="";
+	$numbersOfItems ="";
 }
-if($current == "all") {
-	getAll();
-} else if($current == "viewport") {
-	$viewPortCoords[] = $_GET["swlat"];
-	$viewPortCoords[] = $_GET["swlong"];
-	$viewPortCoords[] = $_GET["nelat"];
-	$viewPortCoords[] = $_GET["nelat"];
-	getAllMarkersInViewport($viewPortCoords);
+	$filter["xstart"] = $_GET["xstart"];
+	$filter["xend"] = $_GET["xend"];
+	$filter["ystart"] = $_GET["ystart"];
+	$filter["yend"] = $_GET["yend"];
+	
+	if(isset($_GET["mainsort"])){
+		$filter["mainsort"] = $_GET["mainsort"];
+	}
+	
+if(isset($filter)) {
+	makeQuery($filter);
+} else {
+	 echo"Error in creating filter array";
 }
 
+
+function makeQuery($filter){
+	if(isset($filter["mainsort"])){
+		$lostOrFound=" && `lost_found` = \"{$filter[mainsort]}\"";
+	} else {
+		$lostOrFound="";
+	}
+	$sql = "SELECT * FROM ad WHERE `lat` > {$filter['ystart']} && `lat` < {$filter['yend']} &&  `long` > {$filter['xstart']} && `long` < {$filter['xend']}".$lostOrFound." ORDER BY timestamp DESC";
+	getAllMarkersInViewport($sql);
+}
 
 function connect() {
 	// Tillfälliga inställningar för lokalt
@@ -50,9 +65,8 @@ function getAll() {
 	echo json_encode($return);
 }
 
-function getAllMarkersInViewport($viewPortCoords) {
+function getAllMarkersInViewport($sql) {
 	connect();
-	$sql = "SELECT `lat`, `long` FROM ad WHERE `lat` > {$viewPortCoords[0]} && `lat` < {$viewPortCoords[2]} &&  `long` > {$viewPortCoords[1]} && `long` < {$viewPortCoords[3]} ORDER BY timestamp DESC";
 	$result = mysql_query($sql);
 	while($row = mysql_fetch_assoc($result)) {
 		$return[] = $row;

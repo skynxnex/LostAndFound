@@ -36,11 +36,6 @@ body.all h1 {
 	background-position:top left;
 }
 h2 {
-	color:#5580B4;
-	background-color:#343434;
-	display:inline;
-	padding:0 5px;
-	margin:5px 0;
 }
 h3 {
 	font-size:1.3em;
@@ -50,7 +45,7 @@ h3 {
 h4 {
 	
 }
-div#sidebar h4 {
+div#sidebar h2 {
 	width:300px;
 	height:25px;
 	background: url(layout/sidebarsprite.png);

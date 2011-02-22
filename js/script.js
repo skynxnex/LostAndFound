@@ -11,7 +11,7 @@ onload = function() {
 		var latlng; // = new google.maps.LatLng(59.309888773597095,
 		// 18.050005859375005);
 		var myOptions = {
-			zoom : 5,
+			zoom : 12,
 			center : latlng,
 			mapTypeId : google.maps.MapTypeId.ROADMAP
 		};
@@ -21,7 +21,7 @@ onload = function() {
 		// Gets the sw corner and ne corner of the map
 		// Look in debug for printout
 		// Function executes after map is loaded
-		google.maps.event.addListener(map, 'bounds_changed', function() {
+		google.maps.event.addListener(map, 'dragend', function() {
 			var bounds = map.getBounds();
 			var southWest = bounds.getSouthWest();
 			var northEast = bounds.getNorthEast();

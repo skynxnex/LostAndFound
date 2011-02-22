@@ -6,7 +6,6 @@
 html, * {
 	padding:0;
 	margin:0;
-	height: 100%;
 }
 body {
 	background-color:#FFF;
@@ -25,6 +24,7 @@ body h1 {
 	height:165px;
 	background: url(layout/logosprite.png);
 	background-position:top right;
+	position: fixed;
 }
 body.lost h1{
 	background-position:bottom right;
@@ -36,11 +36,7 @@ body.all h1 {
 	background-position:top left;
 }
 h2 {
-	color:#5580B4;
-	background-color:#343434;
-	display:inline;
-	padding:0 5px;
-	margin:5px 0;
+	
 }
 h3 {
 	font-size:1.3em;
@@ -50,7 +46,7 @@ h3 {
 h4 {
 	
 }
-div#sidebar h4 {
+div#sidebar h2 {
 	width:300px;
 	height:25px;
 	background: url(layout/sidebarsprite.png);
@@ -255,8 +251,15 @@ div#content {
 }
 div#page {
 	width: 620px;
-	float:left;
+	height: 400px;
 	padding: 10px;
+	position: fixed;
+	left:10px;
+	top: 165px;
+	background: #FFF;
+	display: none;
+	
+	
 }
 div#title {
 	width: 600px;
@@ -283,6 +286,10 @@ div#item_contact{
 	width: 290px;
 	height:5px;
 	float: left;
+}
+
+div#wrapper {
+	background: #FFF;
 }
 
 #item_contact h3 {

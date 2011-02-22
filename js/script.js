@@ -168,7 +168,18 @@ onload = function() {
 			"height" : viewPortHeight,
 			"width" : viewPortWidth
 		});
-
+		$("html").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
+		$("body").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
+		$("#container").css( {
+			"height" : viewPortHeight,
+			"width" : viewPortWidth
+		});	
 	}
 	;
 

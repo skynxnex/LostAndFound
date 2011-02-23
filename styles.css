@@ -239,6 +239,10 @@ div#page {
 	
 	
 }
+#itemList ul {
+	height: 140px;
+	width: 290px;
+}
 div#title {
 	width: 600px;
 	margin-bottom: 10px;
@@ -287,7 +291,6 @@ div#sidebar p {
 }
 div#sidebar ul {
 	list-style:none;
-	height:15px;
 	margin:7px 12px;
 }
 div#sidebar ul li {

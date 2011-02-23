@@ -4,6 +4,7 @@ onload = function(){
     var markersArray = [];
     var sorter = null;
     var mapLoaded = null;
+	var page = 1;
     
     /*
      * Rezise dom elements on load
@@ -107,6 +108,7 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
+					drawPaging(data);
 					});
             } 
             else {
@@ -118,6 +120,7 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
+					drawPaging(data);
 					});
             }
         }
@@ -163,27 +166,31 @@ onload = function(){
 				
 				markersArray.push(marker);
 				
-				/*
-				 * TODO Pseudo kod för paging
-				 * 
-				var pageArray = [];
-				var page = 1;
-				pageArray.push(i);
-				var arrayMax = pageArray.length();
-				
-				
-				if($(".pageLink").click(klicka = function( event ){
-						page = target.event.value();
-					}
-				}
-				printPages(page);
-				function printPages(page){
-					for(var i = 0; i < 3, i++){
-						$("<a/>").text(page+i).appendTo(pageDiv).addClass("pagelink").attr(value, page+i);
-					}
-				}*/
             });
         };
+		function drawPaging(data){
+			if(page > 1 && page < pageArray.length()){
+				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			}else if(page == 1){
+				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			}else if(page == pageArray.length()){
+				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+			}
+			if($(".pagelinkForth").click()){
+				page+=1;
+			}
+			if($(".pagelinkBorth").click()){
+				page-=1;
+			}
+			var number = 0;
+			var amount = $("#sidebar").height()/140;
+			for(var i = number;  i<amount ; i++){
+				
+				
+			}
+		}
+		
         /*
          * Clear marker function
          */

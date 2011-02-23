@@ -302,17 +302,17 @@ div#sidebar h4 {
 }
 /* Togglers */
 #footertoggler{
-	width:50px;
-	height:50px;
+	width:25px;
+	height:25px;
 	background: url(layout/togglesprites.png);
 	position:fixed;
 	bottom:0;
-	background-position:-100px 0;
+	background-position:-50px 0;
 }
 
 #sidebarToggler{
-	width:50px;
-	height:50px;
+	width:25px;
+	height:25px;
 	background: url(layout/togglesprites.png);
 	position:fixed;
 	top:100px;
@@ -329,14 +329,6 @@ div#footer {
 	background: url(layout/footerbg.png);
 	position:fixed;
 	bottom:0;
-}
-#footertoggler{
-	width:50px;
-	height:50px;
-	background: url(layout/togglesprites.png);
-	position:fixed;
-	bottom:0;
-	background-position:-100px 0;
 }
 div#sidebarfooter{
 	width:300px;

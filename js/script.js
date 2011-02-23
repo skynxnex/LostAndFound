@@ -168,27 +168,35 @@ onload = function(){
 				
             });
         };
+        
+        
 		function drawPaging(data){
-			if(page > 1 && page < data.length()){
+			$("#sidebarfooter").empty();
+			if(page > 1 && page < data.length){
 				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
 				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
 			}else if(page == 1){
 				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-			}else if(page == data.length()){
+			}else if(page == data.length){
 				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
 			}
 			if($(".pagelinkForth").click()){
 				page+=1;
+				pagingDrawAdds(data);
 			}
 			if($(".pagelinkBack").click()){
 				page-=1;
+				pagingDrawAdds(data);
 			}
-			
-			var amount = $("#sidebar").height()/140;
-			for(var i = page;  i < amount ; i++){
-				var tempArray = new Array();
-				tempArray[] = data[i];
-				drawAdds(tempArray);
+			function pagingDrawAdds(data){
+				var amount = $("#sidebar").height()/140;
+				for(var i = 0;  i < amount ; i++){
+					var pagecounter = page;
+					var tempArray = new Array();
+					tempArray.push(data[pagecounter]);
+					drawAdds(tempArray);
+					pagecounter++;
+				}
 			}
 		}
 		

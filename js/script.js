@@ -9,6 +9,8 @@ onload = function(){
     var indexOfTopItem = 0;
     var currentpage = 1;
     
+    
+    
     /*
      * actions on load
      */
@@ -47,7 +49,7 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
-        pager();
+		pager();
     });
     
     
@@ -154,6 +156,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('found');
             var choice = "found";
+			currentpage=1;
+   			indexOfTopItem=0;
             refreshPage(choice);
             return false;
         });
@@ -161,6 +165,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('lost');
             var choice = "lost";
+			currentpage=1;
+   			indexOfTopItem = 0;
             refreshPage(choice);
             return false;
         });
@@ -168,6 +174,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('all');
             var choice = "all";
+			currentpage=1;
+   			indexOfTopItem = 0;
             refreshPage(choice);
             return false;
         });
@@ -182,7 +190,7 @@ onload = function(){
         } else if (choice == "all") {
                 sorter = null;
          }
-            
+        itemList=[];
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();
         var northEast = bounds.getNorthEast();
@@ -195,8 +203,8 @@ onload = function(){
                 "yend": northEast.za
             }, function(data){
 				itemList = data;
-				pager();
                 drawMarkers(data);
+                pager();
                 console.debug(itemList[0].title);
             });
         }
@@ -505,8 +513,6 @@ onload = function(){
     function drawAdds(amount) {
 		$("#itemList").empty(); 
 		console.debug("itemlist:",amount, indexOfTopItem, itemList);
-		var udda = amount%numberOfItems;
-		
 		for(var i = indexOfTopItem; i < indexOfTopItem+amount; i++){	
 			tempUl = $("<ul/>").addClass("sidebarItem"+i);
 			
@@ -536,21 +542,30 @@ onload = function(){
     function pager(){
 		$("#pager").empty();
 		var numberOfItems = itemList.length;
-		console.debug("itemlist:", itemList);
 		var amount = Math.floor($("#sidebar").height()/140);
+		var topPage= Math.ceil(numberOfItems/amount);
+		var slatt = numberOfItems%amount;
+		console.debug("Amount:",amount,$("#sidebar").height());
 		$("<a/>").text("Previous").appendTo("#pager").addClass("pagelink").click(function(){
 			if(currentpage > 1){
 					indexOfTopItem -= amount;
 					currentpage--; 
 			}
+			pager();
 		});
 		$("<a/>").text("Next").appendTo("#pager").addClass("pagelink").click(function(){
 			if(currentpage < numberOfItems/amount){
 					indexOfTopItem += amount; 
 					currentpage++;
 			}
+			pager();
 		});
-		drawAdds(amount, indexOfTopItem);
+		if(currentpage==topPage&&slatt!=0){
+			amount=slatt;
+		}
+		var slatt = numberOfItems%amount;
+		Math.ceil(numberOfItems/amount);
+		drawAdds(amount);
 		//alert(amount);
 		//alert(numberOfTopItem);
 	}   

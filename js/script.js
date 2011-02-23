@@ -5,11 +5,9 @@ onload = function(){
     var map;
     var sorter = null;
     var mapLoaded = null;
-    var itemList = [];
+    var itemList;
     var indexOfTopItem = 0;
     var currentpage = 1;
-    
-    
     
     /*
      * actions on load
@@ -49,6 +47,7 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
+        pager();
     });
     
     
@@ -156,7 +155,6 @@ onload = function(){
             $('body').addClass('found');
             var choice = "found";
             refreshPage(choice);
-            pager();
             return false;
         });
         $("li.lost").click(function(){
@@ -164,7 +162,6 @@ onload = function(){
             $('body').addClass('lost');
             var choice = "lost";
             refreshPage(choice);
-            pager();
             return false;
         });
         $("li.all").click(function(){
@@ -172,7 +169,6 @@ onload = function(){
             $('body').addClass('all');
             var choice = "all";
             refreshPage(choice);
-            pager();
             return false;
         });
     }
@@ -199,8 +195,8 @@ onload = function(){
                 "yend": northEast.za
             }, function(data){
 				itemList = data;
+				pager();
                 drawMarkers(data);
-                drawAdds(2, 0);
                 console.debug(itemList[0].title);
             });
         }
@@ -213,7 +209,6 @@ onload = function(){
             }, function(data){
 				itemList = data;
                 drawMarkers(data);
-                drawAdds(2, 0);
                 pager();
                 console.debug(itemList[0].title);
             });
@@ -507,8 +502,11 @@ onload = function(){
         
     };
     
-    function drawAdds(amount, indexOfTopItem) {
+    function drawAdds(amount) {
 		$("#itemList").empty(); 
+		console.debug("itemlist:",amount, indexOfTopItem, itemList);
+		var udda = amount%numberOfItems;
+		
 		for(var i = indexOfTopItem; i < indexOfTopItem+amount; i++){	
 			tempUl = $("<ul/>").addClass("sidebarItem"+i);
 			
@@ -539,7 +537,7 @@ onload = function(){
 		$("#pager").empty();
 		var numberOfItems = itemList.length;
 		console.debug("itemlist:", itemList);
-		var amount = Math.floor($("sidebar").height()/140);
+		var amount = Math.floor($("#sidebar").height()/140);
 		$("<a/>").text("Previous").appendTo("#pager").addClass("pagelink").click(function(){
 			if(currentpage > 1){
 					indexOfTopItem -= amount;

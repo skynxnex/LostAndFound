@@ -297,7 +297,25 @@ div#sidebar ul li {
 div#sidebar h4 {
 	clear:both;	
 }
+/* Togglers */
+#footertoggler{
+	width:50px;
+	height:50px;
+	background: url(layout/togglesprites.png);
+	position:fixed;
+	bottom:0;
+	background-position:-100px 0;
+}
 
+#sidebarToggler{
+	width:50px;
+	height:50px;
+	background: url(layout/togglesprites.png);
+	position:fixed;
+	top:100px;
+	right:300px;
+	background-position:0px 0;
+}
 
 /* footer */
 div#footer {

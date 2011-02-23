@@ -32,7 +32,7 @@ function makeQuery($filter){
 
 function connect() {
 	// Tillfälliga inställningar för lokalt
-	$host = "localhost";
+	$host = "127.0.0.1";
 	$user = "root";
 	$pass = "root";
 	$db = "test";

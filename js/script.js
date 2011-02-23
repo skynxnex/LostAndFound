@@ -205,40 +205,72 @@ onload = function(){
     /*
      * hover the togglebutton for the footer
      */
-    $("#footertoggler").hover(function(){
-        var backgroundX = $("#footertoggler").css("background-position").split("px")[0];
-        console.debug("x", backgroundX + "px -50px");
-        $("#footertoggler").css({
-            "background-position": backgroundX + "px -50px"
-        });
-    }, function(){
-        var backgroundX = $("#footertoggler").css("background-position").split("px")[0];
-        $("#footertoggler").css({
-            "background-position": backgroundX + "px 0px"
-        })
-    });
+	toggleHover = {
+		
+		on: function (){
+			var backgroundX = $(this).css("background-position").split("px")[0];
+			$(this).css({
+				"background-position": backgroundX + "px -50px"
+			});
+			//console.debug("hover prop on",$(this).css("background-position"));
+		},
+		off: function (){
+			var backgroundX = $(this).css("background-position").split("px")[0];
+			$(this).css({
+				"background-position": backgroundX + "px 0px"
+			});
+			console.debug("hover prop off",$(this).css("background-position"));
+		}
+	};
+		$("#footertoggler").hover(toggleHover.on,toggleHover.off);
+		$("#sidebarToggler").hover(toggleHover.on,toggleHover.off);
     
     $("#footertoggler").toggle(function(){
         var backgroundY = $("#footertoggler").css("background-position").split("px ")[1];
-        console.debug("y this", "-150px " + backgroundY);
-        console.debug("bytt", $("#footertoggler").css("background-position"));
         $("#footertoggler").css({
             "bottom": "190px",
             "background-position": "-150px " + backgroundY
-        })
+        });
         $("#footer").css({
             "height": "200px"
-        })
+        });
+        console.debug("background pos footer", $("#sidebarToggler").css("background-position"));
+        console.debug("background pos footer", "-150px " + backgroundY);
     }, function(){
-        var backgroundY = $("#footertoggler").css("background-position").split("px ")[1];
         $("#footertoggler").css({
-            "bottom": "0px",
-            "background-position": "-100px " + backgroundY
+            "bottom": "",
+            "background-position": ""
         })
         $("#footer").css({
-            "height": "10px"
+            "height": ""
         })
     });
+	
+	 /*
+     * togglebutton for the sidebar
+     */
+    
+    $("#sidebarToggler").toggle(function(){
+        var backgroundY = $("#sidebarToggler").css("background-position").split("px ")[1];
+        $("#sidebarToggler").css({
+            "right": "0px",
+            "background-position": "-50px " + backgroundY
+        });
+        $("#sidebar, #sidebar h2,#sidebarfooter").css({
+            "right": "-290px"
+        });
+        console.debug("background pos sidebar", $("#sidebarToggler").css("background-position"));
+
+    }, function(){
+        $("#sidebarToggler").css({
+            "right": "",
+            "background-position": ""
+        })
+        $("#sidebar, #sidebar h2,#sidebarfooter").css({
+            "right": ""
+        })
+    });
+
     
     // Thumbnail animation
    /*
@@ -266,6 +298,9 @@ onload = function(){
     function updateViewPort(){
         var viewPortHeight = $(window).height();
         var viewPortWidth = $(window).width();
+		if(viewPortWidth>945){
+			//sidebarPreToggled();
+		}
         var sidebarHeight = viewPortHeight - 101;
         // console.debug("Sidebar height", sidebarHeight);
         $("#sidebar").css({

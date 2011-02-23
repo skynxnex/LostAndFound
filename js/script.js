@@ -104,22 +104,39 @@ onload = function(){
                     "xend": northEast.Ba,
                     "ystart": southWest.za,
                     "yend": northEast.za
-                }, drawMarkers);
-            }
+                }, function(data){
+					drawMarkers(data);
+					drawAdds(data);
+					});
+            } 
             else {
                 $.getJSON("db.php", {
                     "xstart": southWest.Ba,
                     "xend": northEast.Ba,
                     "ystart": southWest.za,
                     "yend": northEast.za
-                }, drawMarkers);
+                }, function(data){
+					drawMarkers(data);
+					drawAdds(data);
+					});
             }
         }
         /*
          *	Clears all markers and print the current ones
          */
         function drawMarkers(data){
-            clearOverlays();
+			clearOverlays();
+			/*TODO dynamisk storlek för items i listan*/
+            /*var screenheight = $(window).height();
+            
+			if(screenheight <= 300){
+				var screensize = 3;
+			}else if(screenheight <= 600){
+				var screensize = 5;
+			}else if(screenheight <= 10000){
+				var screensize = 8;
+			}*/
+			
             $.each(data, function(i, item){
                 var point = new google.maps.LatLng(item.lat, item.long);
                 console.debug(item.lat, item.long);
@@ -130,23 +147,41 @@ onload = function(){
                         icon: image,
                         map: map
                     });
-                }
-                else 
-                    if (item.lost_found == "found") {
-                        var image = "layout/found-icon.png";
-                        var marker = new google.maps.Marker({
-                            position: point,
-                            icon: image,
-                            map: map
-                        });
-                    }
-                    else {
-                        var marker = new google.maps.Marker({
-                            position: point,
-                            map: map
-                        });
-                    }
-                markersArray.push(marker);
+                } else if (item.lost_found == "found") {
+					var image = "layout/found-icon.png";
+					var marker = new google.maps.Marker({
+						position: point,
+						icon: image,
+						map: map
+					});
+				} else {
+					var marker = new google.maps.Marker({
+						position: point,
+						map: map
+					});
+				}
+				
+				markersArray.push(marker);
+				
+				/*
+				 * TODO Pseudo kod för paging
+				 * 
+				var pageArray = [];
+				var page = 1;
+				pageArray.push(i);
+				var arrayMax = pageArray.length();
+				
+				
+				if($(".pageLink").click(klicka = function( event ){
+						page = target.event.value();
+					}
+				}
+				printPages(page);
+				function printPages(page){
+					for(var i = 0; i < 3, i++){
+						$("<a/>").text(page+i).appendTo(pageDiv).addClass("pagelink").attr(value, page+i);
+					}
+				}*/
             });
         };
         /*

@@ -1,7 +1,7 @@
 <div id="sidebar">
 	<h2>Latest added</h2>
-		<ul id="itemList">
+		<div id="itemList">
 		
-		</ul>
+		</div>
 		<div id="sidebarfooter"></div>
 </div>

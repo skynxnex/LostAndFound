@@ -1,9 +1,5 @@
 <?php
-if(isset($_GET["amount"])){
-	$numbersOfItems = $_GET["amount"];
-} else {
-	$numbersOfItems ="";
-}
+
 	$filter["xstart"] = $_GET["xstart"];
 	$filter["xend"] = $_GET["xend"];
 	$filter["ystart"] = $_GET["ystart"];
@@ -12,13 +8,11 @@ if(isset($_GET["amount"])){
 	if(isset($_GET["mainsort"])){
 		$filter["mainsort"] = $_GET["mainsort"];
 	}
-	
 if(isset($filter)) {
 	makeQuery($filter);
 } else {
 	 echo"Error in creating filter array";
 }
-
 
 function makeQuery($filter){
 	if(isset($filter["mainsort"])){

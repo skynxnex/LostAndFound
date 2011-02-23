@@ -5,9 +5,8 @@
 	<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
 	<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript" language="javascript"></script>
 	<script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript" language="javascript"></script>
-	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<script src="js/list.js" type="text/javascript" language="javascript"></script>
-	<script src="js/navigation.js" type="text/javascript" language="javascript"></script>
+	<script src="js/script.js" type="text/javascript" language="javascript"></script>
 	<title>LostAndFound webApp</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" />
 </head>

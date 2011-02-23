@@ -108,6 +108,9 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
+					//drawPaging(data);
+					itemList=data;
+					console.debug(itemList[0].title);
 					});
             } 
             else {
@@ -119,6 +122,7 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
+					//drawPaging(data);
 					itemList=data;
 					console.debug(itemList[0].title);
 					});
@@ -154,14 +158,18 @@ onload = function(){
 
 					
 					google.maps.event.addListener(marker, 'click', function() {
-					  infowindow.open(map,marker);
+					  displayItemPage(i);
 					});
                 } else if (item.lost_found == "found") {
 					var image = "layout/found-icon.png";
 					var marker = new google.maps.Marker({
 						position: point,
 						icon: image,
-						map: map
+						map: map,
+      					title: item.title
+					});
+					google.maps.event.addListener(marker, 'click', function() {
+					  displayItemPage(i);
 					});
 				} else {
 					var marker = new google.maps.Marker({
@@ -172,27 +180,33 @@ onload = function(){
 				
 				markersArray.push(marker);
 				
-				/*
-				 * TODO Pseudo kod för paging
-				 * 
-				var pageArray = [];
-				var page = 1;
-				pageArray.push(i);
-				var arrayMax = pageArray.length();
-				
-				
-				if($(".pageLink").click(klicka = function( event ){
-						page = target.event.value();
-					}
-				}
-				printPages(page);
-				function printPages(page){
-					for(var i = 0; i < 3, i++){
-						$("<a/>").text(page+i).appendTo(pageDiv).addClass("pagelink").attr(value, page+i);
-					}
-				}*/
             });
         };
+		/*
+		function drawPaging(data){
+			if(page > 1 && page < data.length()){
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			}else if(page == 1){
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			}else if(page == data.length()){
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+			}
+			if($(".pagelinkForth").click()){
+				page+=1;
+			}
+			if($(".pagelinkBack").click()){
+				page-=1;
+			}
+			
+			var amount = $("#sidebar").height()/140;
+			for(var i = page;  i < amount ; i++){
+				var tempArray = new Array();
+				tempArray[] = data[i];
+				drawAdds(tempArray);
+			}
+		}
+		
         /*
          * Clear marker function
          */
@@ -370,5 +384,115 @@ onload = function(){
             "width": viewPortWidth
         });
     };
-    
+
+
+/*
+ * Empty the #page before reconstruct
+ */
+function clearPage(){
+	$("#title,#item_photo,#item_text,#item_contact,#close").empty();
+	
+};
+/*
+ * Draw the new page
+ */
+function displayItemPage(i){
+			
+			clearPage();
+			title = "#title";
+			photo = "#item_photo";
+			text = "#item_text";
+			contact = "#item_contact";
+			
+			console.debug("Sidans alla ojekt",itemList);
+			
+			$("<h2/>").text(itemList[i].lost_found+" : "+itemList[i].title).appendTo(title);
+			if(itemList[i].item_picture_link != null){
+				$("<img src='"+itemList[i].item_picture_link+"'/>").appendTo(photo);
+			} else if(itemList[i].where_picture_link != null){
+				$("<img src='"+itemList[i].where_picture_link+"'/>").appendTo(photo);
+			}
+			if(itemList[i].description != null){
+				$("<p/>").text("Description: " + itemList[i].description).appendTo(text);
+			}
+			if(itemList[i].datetime != null){
+				$("<p/>").text("Found/lost: " + itemList[i].datetime).appendTo(text);
+			} else {
+				$("<p/>").text("Posted: " + itemList[i].timestamp).appendTo(text);
+			}
+			if(itemList[i].when_comment != null){
+				$("<p/>").text(itemList[i].when_comment).appendTo(text);	
+			}
+			if(itemList[i].where_street && itemList[i].where_street_no != null){
+				$("<p/>").text("Where: " + itemList[i].where_street + " " + itemList[i].where_street_no).appendTo(text);
+			}
+			if(itemList[i].where_city != null){
+				$("<p/>").text(itemList[i].where_city).appendTo(text);
+			}
+			if(itemList[i].where_comment != null){
+				$("<p/>").text(itemList[i].where_comment).appendTo(text);
+			}
+			$("<h3/>").text("Contact").appendTo(contact);
+			if(itemList[i].email != null){
+				$("<p/>").text(itemList[i].email).appendTo(contact);
+			}
+			if(itemList[i].phone != null){
+				$("<p/>").text(itemList[i].phone).appendTo(contact);
+			}
+			if(itemList[i].contact_street && itemList[i].contact_street_no != null){
+				$("<p/>").text(itemList[i].contact_street + " " + itemList[i].contact_street_no).appendTo(contact);
+			}
+			if(itemList[i].contact_city != null){
+				$("<p/>").text(itemList[i].contact_city).appendTo(contact);
+			}
+			if(itemList[i].contact_comment != null){
+				$("<p/>").text(itemList[i].contact_comment).appendTo(contact);
+			}
+			$("<p/>").text("X").appendTo("#close");
+			$("#close").click(function(){
+				$("#page").css( {
+				"display" : "none",
+				"width" : pageWidth
+				});	
+			});
+			var pageHeight = $(window).height();
+			var pageWidth = $(window).width()-350;
+			$("#page").css( {
+				"display" : "block",
+				"width" : pageWidth
+			});	
+	
+};
+
+function drawAdds(data) {
+	$("#itemList").empty();
+	$.each(data, function(i, ad) {
+		tempUl = $("<ul/>").addClass("sidebarItem"+i);
+		
+		if(ad.item_picture_link != null){
+			$("<img class='thumbnail' src='"+ad.item_picture_link+"'/>").appendTo($(tempUl));
+		} else if(ad.where_picture_link != null){
+			$("<img class='thumbnail' src='"+ad.where_picture_link+"'/>").appendTo($(tempUl));
+		}
+		$("<li/>").text(ad.lost_found).appendTo($(tempUl));
+		$("<li class='sidebarTitle'/>").text("What: "+ad.title).appendTo($(tempUl));
+		if(ad.description != null){
+			$("<li class='sidebarDescription'/>").text("Description: "+ad.description).appendTo($(tempUl));
+		}
+		if(ad.datetime != null){
+			$("<li/ class='sidebarTime'>").text("When: "+ad.datetime).appendTo($(tempUl));
+		} else {
+			$("<li/ class='sidebarTime'>").text("When: "+ad.timestamp).appendTo($(tempUl));
+		}
+		tempUl.appendTo("#itemList");
+		$(".sidebarItem"+i).click(function(event) {	
+			
+			displayItemPage(i);
+
+		});
+	});
+};
+   
+	
+	
     };

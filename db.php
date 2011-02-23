@@ -16,7 +16,7 @@ if(isset($filter)) {
 
 function makeQuery($filter){
 	if(isset($filter["mainsort"])){
-		$lostOrFound=" && `lost_found` = \"{$filter[mainsort]}\"";
+		$lostOrFound=" && `lost_found` = \"{$filter['mainsort']}\"";
 	} else {
 		$lostOrFound="";
 	}

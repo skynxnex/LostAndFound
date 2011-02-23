@@ -20,8 +20,7 @@ onload = function() {
 	 * and add to DOM element
 	 * TODO check Y initialize wrapps so much
 	 */
-	initialize();
-	function initialize() {
+	var initialize = function() {
 		var latlng; // = new google.maps.LatLng(59.309888773597095,
 		// 18.050005859375005);
 		var myOptions = {

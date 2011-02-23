@@ -4,8 +4,11 @@ onload = function(){
     var markersArray = [];
     var map;
     var sorter = null;
-    var mapLoaded = null;§
+    var mapLoaded = null;
     var itemList = [];
+    var indexOfTopItem = 0;
+    var currentpage = 1;
+    
     
     
     /*
@@ -13,7 +16,7 @@ onload = function(){
      */
     initialize();
     updateViewPort();
-    activateSortButtons()
+    activateSortButtons();
     backupLocation();
     
     
@@ -153,6 +156,7 @@ onload = function(){
             $('body').addClass('found');
             var choice = "found";
             refreshPage(choice);
+            pager();
             return false;
         });
         $("li.lost").click(function(){
@@ -160,6 +164,7 @@ onload = function(){
             $('body').addClass('lost');
             var choice = "lost";
             refreshPage(choice);
+            pager();
             return false;
         });
         $("li.all").click(function(){
@@ -167,6 +172,7 @@ onload = function(){
             $('body').addClass('all');
             var choice = "all";
             refreshPage(choice);
+            pager();
             return false;
         });
     }
@@ -177,11 +183,10 @@ onload = function(){
     function refreshPage(choice){
         if (choice == "lost" || choice == "found") {
             sorter = choice;
-        }
-        else 
-            if (choice == "all") {
+        } else if (choice == "all") {
                 sorter = null;
-            }
+         }
+            
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();
         var northEast = bounds.getNorthEast();
@@ -193,10 +198,9 @@ onload = function(){
                 "ystart": southWest.za,
                 "yend": northEast.za
             }, function(data){
+				itemList = data;
                 drawMarkers(data);
-                drawAdds(data);
-                //drawPaging(data);
-                itemList = data;
+                drawAdds(2, 0);
                 console.debug(itemList[0].title);
             });
         }
@@ -207,10 +211,10 @@ onload = function(){
                 "ystart": southWest.za,
                 "yend": northEast.za
             }, function(data){
+				itemList = data;
                 drawMarkers(data);
-                drawAdds(data);
-                //drawPaging(data);
-                itemList = data;
+                drawAdds(2, 0);
+                pager();
                 console.debug(itemList[0].title);
             });
         }
@@ -503,38 +507,53 @@ onload = function(){
         
     };
     
-    function drawAdds(data){
-        $("#itemList").empty();
-        $.each(data, function(i, ad){
-            tempUl = $("<ul/>").addClass("sidebarItem" + i);
-            
-            if (ad.item_picture_link != null) {
-                $("<img class='thumbnail' src='" + ad.item_picture_link + "'/>").appendTo($(tempUl));
-            }
-            else 
-                if (ad.where_picture_link != null) {
-                    $("<img class='thumbnail' src='" + ad.where_picture_link + "'/>").appendTo($(tempUl));
-                }
-            $("<li/>").text(ad.lost_found).appendTo($(tempUl));
-            $("<li class='sidebarTitle'/>").text("What: " + ad.title).appendTo($(tempUl));
-            if (ad.description != null) {
-                $("<li class='sidebarDescription'/>").text("Description: " + ad.description).appendTo($(tempUl));
-            }
-            if (ad.datetime != null) {
-                $("<li/ class='sidebarTime'>").text("When: " + ad.datetime).appendTo($(tempUl));
-            }
-            else {
-                $("<li/ class='sidebarTime'>").text("When: " + ad.timestamp).appendTo($(tempUl));
-            }
-            tempUl.appendTo("#itemList");
-            $(".sidebarItem" + i).click(function(event){
-            
-                displayItemPage(i);
-                
-            });
-        });
-    };
-    
-    
-    
-    };
+    function drawAdds(amount, indexOfTopItem) {
+		$("#itemList").empty(); 
+		for(var i = indexOfTopItem; i < indexOfTopItem+amount; i++){	
+			tempUl = $("<ul/>").addClass("sidebarItem"+i);
+			
+			if(itemList[i].item_picture_link != null){
+				$("<img class='thumbnail' src='"+itemList[i].item_picture_link+"'/>").appendTo($(tempUl));
+			} else if(itemList[i].where_picture_link != null){
+				$("<img class='thumbnail' src='"+itemList[i].where_picture_link+"'/>").appendTo($(tempUl));
+			}
+			$("<li/>").text(itemList[i].lost_found).appendTo($(tempUl));
+			$("<li class='sidebarTitle'/>").text("What: "+itemList[i].title).appendTo($(tempUl));
+			if(itemList[i].description != null){
+				$("<li class='sidebarDescription'/>").text("Description: "+itemList[i].description).appendTo($(tempUl));
+			}
+			if(itemList[i].datetime != null){
+				$("<li/ class='sidebarTime'>").text("When: "+itemList[i].datetime).appendTo($(tempUl));
+			} else {
+				$("<li/ class='sidebarTime'>").text("When: "+itemList[i].timestamp).appendTo($(tempUl));
+			}
+			tempUl.appendTo("#itemList");
+			$(".sidebarItem"+i).click(function(event) {	
+				
+				displayItemPage(i);
+
+			});
+		};
+	};
+    function pager(){
+		$("#pager").empty();
+		var numberOfItems = itemList.length;
+		console.debug("itemlist:", itemList);
+		var amount = Math.floor($("sidebar").height()/140);
+		$("<a/>").text("Previous").appendTo("#pager").addClass("pagelink").click(function(){
+			if(currentpage > 1){
+					indexOfTopItem -= amount;
+					currentpage--; 
+			}
+		});
+		$("<a/>").text("Next").appendTo("#pager").addClass("pagelink").click(function(){
+			if(currentpage < numberOfItems/amount){
+					indexOfTopItem += amount; 
+					currentpage++;
+			}
+		});
+		drawAdds(amount, indexOfTopItem);
+		//alert(amount);
+		//alert(numberOfTopItem);
+	}   
+};

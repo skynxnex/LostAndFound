@@ -1,3 +1,18 @@
+/*
+ * Empty the #page before reconstruct
+ */
+function clearPage(){
+	$("#title,#item_photo,#item_text,#item_contact,#close").empty();
+	
+};
+/*
+ * Draw the new page
+ */
+function clearPage(){
+	$("#title,#item_photo,#item_text,#item_contact,#close").empty();
+	
+};
+
 function drawAdds(data) {
 	$("#itemList").empty();
 	$.each(data, function(i, ad) {
@@ -20,21 +35,19 @@ function drawAdds(data) {
 		}
 		tempUl.appendTo("#itemList");
 		$(".sidebarItem"+i).click(function(event) {	
-			
+			clearPage();
+			drawPage();
 			title = "#title";
 			photo = "#item_photo";
 			text = "#item_text";
 			contact = "#item_contact";
 			
-			$("#title").empty();
 			$("<h2/>").text(ad.lost_found+" : "+ad.title).appendTo(title);
-			$("#item_photo").empty();
 			if(ad.item_picture_link != null){
 				$("<img src='"+ad.item_picture_link+"'/>").appendTo(photo);
 			} else if(ad.where_picture_link != null){
 				$("<img src='"+ad.where_picture_link+"'/>").appendTo(photo);
 			}
-			$("#item_text").empty();
 			if(ad.description != null){
 				$("<p/>").text("Description: " + ad.description).appendTo(text);
 			}
@@ -55,7 +68,6 @@ function drawAdds(data) {
 			if(ad.where_comment != null){
 				$("<p/>").text(ad.where_comment).appendTo(text);
 			}
-			$("#item_contact").empty();
 			$("<h3/>").text("Contact").appendTo(contact);
 			if(ad.email != null){
 				$("<p/>").text(ad.email).appendTo(contact);
@@ -72,7 +84,6 @@ function drawAdds(data) {
 			if(ad.contact_comment != null){
 				$("<p/>").text(ad.contact_comment).appendTo(contact);
 			}
-			$("#close").empty();
 			$("<p/>").text("X").appendTo("#close");
 			$("#close").click(function(){
 				$("#page").css( {

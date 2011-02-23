@@ -4,6 +4,7 @@ onload = function(){
     var markersArray = [];
     var sorter = null;
     var mapLoaded = null;
+	var itemList=[];
     
     /*
      * Rezise dom elements on load
@@ -118,6 +119,8 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
+					itemList=data;
+					console.debug(itemList[0].title);
 					});
             }
         }
@@ -145,8 +148,14 @@ onload = function(){
                     var marker = new google.maps.Marker({
                         position: point,
                         icon: image,
-                        map: map
+                        map: map,
+      					title: item.title
                     });
+
+					
+					google.maps.event.addListener(marker, 'click', function() {
+					  infowindow.open(map,marker);
+					});
                 } else if (item.lost_found == "found") {
 					var image = "layout/found-icon.png";
 					var marker = new google.maps.Marker({
@@ -238,7 +247,7 @@ onload = function(){
         };
             };
     /*
-     * hover the togglebutton for the footer
+     * hover the togglebuttons
      */
 	toggleHover = {
 		
@@ -260,6 +269,9 @@ onload = function(){
 		$("#footertoggler").hover(toggleHover.on,toggleHover.off);
 		$("#sidebarToggler").hover(toggleHover.on,toggleHover.off);
     
+	 /*
+     * hover the togglebuttons
+     */
     $("#footertoggler").toggle(function(){
         var backgroundY = $("#footertoggler").css("background-position").split("px ")[1];
         $("#footertoggler").css({

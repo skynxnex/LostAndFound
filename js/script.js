@@ -169,25 +169,26 @@ onload = function(){
             });
         };
 		function drawPaging(data){
-			if(page > 1 && page < pageArray.length()){
-				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
-				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			if(page > 1 && page < data.length()){
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
 			}else if(page == 1){
-				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-			}else if(page == pageArray.length()){
-				$("<a/>").text(page+i).appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+			}else if(page == data.length()){
+				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
 			}
 			if($(".pagelinkForth").click()){
 				page+=1;
 			}
-			if($(".pagelinkBorth").click()){
+			if($(".pagelinkBack").click()){
 				page-=1;
 			}
-			var number = 0;
+			
 			var amount = $("#sidebar").height()/140;
-			for(var i = number;  i<amount ; i++){
-				
-				
+			for(var i = page;  i < amount ; i++){
+				var tempArray = new Array();
+				tempArray[] = data[i];
+				drawAdds(tempArray);
 			}
 		}
 		

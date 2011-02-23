@@ -5,6 +5,8 @@ onload = function(){
     var sorter = null;
     var mapLoaded = null;
 	var itemList=[];
+	var currentpage = 1;
+	var indexOfTopItem = 0;
     
     /*
      * Rezise dom elements on load
@@ -108,7 +110,6 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
-					//drawPaging(data);
 					itemList=data;
 					console.debug(itemList[0].title);
 					});
@@ -122,9 +123,9 @@ onload = function(){
                 }, function(data){
 					drawMarkers(data);
 					drawAdds(data);
-					//drawPaging(data);
 					itemList=data;
 					console.debug(itemList[0].title);
+					console.debug(itemList)
 					});
             }
         }
@@ -184,7 +185,7 @@ onload = function(){
         };
         
         
-		function drawPaging(data){
+		/*function drawPaging(data){
 			$("#sidebarfooter").empty();
 			if(page > 1 && page < data.length){
 				$("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
@@ -208,11 +209,9 @@ onload = function(){
 					var pagecounter = page;
 					var tempArray = new Array();
 					tempArray.push(data[pagecounter]);
-					drawAdds(tempArray);
-					pagecounter++;
 				}
 			}
-		}
+		}*/
 		
         /*
          * Clear marker function
@@ -400,6 +399,33 @@ function clearPage(){
 	$("#title,#item_photo,#item_text,#item_contact,#close").empty();
 	
 };
+
+function pager(){
+	var numberOfItems = itemList.length;
+	console.debug("itemlist:", itemList);
+	
+	var amount = Math.floor($("sidebar").height()/140);
+	$("<a/>").text("Previous").appendTo("#pager").addClass("pagelink").click(function(){
+		if(currentpage > 1){
+				indexOfTopItem -= amount;
+				currentpage--; 
+				//alert("hej");
+		}
+	});
+	$("<a/>").text("Next").appendTo("#pager").addClass("pagelink").click(function(){
+		if(currentpage < numberOfItems/amount){
+				indexOfTopItem += amount; 
+				currentpage++;
+				//alert("hej");
+		}
+	});
+	for(var i = indexOfTopItem; i < amount; i++){
+			drawAdds(amount, indexOfTopItem);
+			alert(amount);
+			alert(numberOfTopItem);
+	}
+}
+
 /*
  * Draw the new page
  */
@@ -471,6 +497,36 @@ function displayItemPage(i){
 	
 };
 
+function drawAdds(amount,indexOfTopItem) {
+	$("#itemList").empty();
+	for(var i = indexOfTopItem; i < indexOfTopItem+amount; i++){	
+		tempUl = $("<ul/>").addClass("sidebarItem"+i);
+		
+		if(itemList[i].item_picture_link != null){
+			$("<img class='thumbnail' src='"+itemList[i].item_picture_link+"'/>").appendTo($(tempUl));
+		} else if(ad.where_picture_link != null){
+			$("<img class='thumbnail' src='"+itemList[i].where_picture_link+"'/>").appendTo($(tempUl));
+		}
+		$("<li/>").text(itemList[i].lost_found).appendTo($(tempUl));
+		$("<li class='sidebarTitle'/>").text("What: "+itemList[i].title).appendTo($(tempUl));
+		if(itemList[i].description != null){
+			$("<li class='sidebarDescription'/>").text("Description: "+itemList[i].description).appendTo($(tempUl));
+		}
+		if(itemList[i].datetime != null){
+			$("<li/ class='sidebarTime'>").text("When: "+itemList[i].datetime).appendTo($(tempUl));
+		} else {
+			$("<li/ class='sidebarTime'>").text("When: "+itemList[i].timestamp).appendTo($(tempUl));
+		}
+		tempUl.appendTo("#itemList");
+		$(".sidebarItem"+i).click(function(event) {	
+			
+			displayItemPage(i);
+
+		});
+	};
+	
+};
+/*
 function drawAdds(data) {
 	$("#itemList").empty();
 	$.each(data, function(i, ad) {
@@ -498,8 +554,9 @@ function drawAdds(data) {
 
 		});
 	});
+	
 };
-   
+ */ 
 	
 	
     };

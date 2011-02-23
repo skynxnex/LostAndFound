@@ -4,5 +4,6 @@
 		<div id="itemList">
 		
 		</div>
+		<div id="pager"></div>
 		<div id="sidebarfooter"></div>
 </div>

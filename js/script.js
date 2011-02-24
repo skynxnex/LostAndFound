@@ -49,6 +49,7 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
+		pager();
     });
     
     /*
@@ -170,10 +171,6 @@ onload = function(){
         if (choice == "lost" || choice == "found") {
             sorter = choice;
         }
-        else 
-            if (choice == "all") {
-                sorter = null;
-            }
         itemList = [];
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();
@@ -363,6 +360,7 @@ onload = function(){
             "height": viewPortHeight,
             "width": viewPortWidth
         });
+		
     };
     
     /*

@@ -307,14 +307,23 @@ div#pager>span.pagebutton{
 	display:block;
 	cursor:pointer;
 }
-
-div#pager>span.previous{
+/*div#pager>span.minPage{
 	float:left;
 	padding-left:10px;
 }
-div#pager>span.next{
+div#pager>span.maxPage{
 	float:right;
 	padding-right:10px;
+}*/
+div#rightPager, div#rightPager span{
+	float:right;
+	padding:5px;
+	margin: 5px;
+}
+div#leftPager, div#leftPager span{
+	float:left;
+	padding:5px;
+	margin: 5px;
 }
 
 /* Togglers */

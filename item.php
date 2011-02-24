@@ -5,4 +5,6 @@
 	</div>
 	<div id="item_text">
 	</div>
+	<div id="addform">
+	</div>
 </div>

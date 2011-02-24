@@ -4,7 +4,7 @@ onload = function(){
     var sorter = null;
     var mapLoaded = null;
     var itemList;
-    var indexOfTopItem = 0;
+    var indexOfTopItem = 1;
     var currentpage = 1;
     var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
     var photoId;
@@ -311,6 +311,7 @@ onload = function(){
     function updateViewPort(){
         var viewPortHeight = $(window).height();
         var viewPortWidth = $(window).width();
+        
         $("#map_canvas").css({
             "width": viewPortWidth,
             "height": viewPortHeight
@@ -367,14 +368,13 @@ onload = function(){
      * Empty the #page before reconstruct
      */
     function clearPage(){
-        $("#title,#item_photo,#item_text,#item_contact,#close").empty();
+        $("#title,#item_photo,#item_text,#item_contact,#close,#addform").empty();
         
     };
     /*
      * Draw the new page
      */
     function displayItemPage(i){
-    
         clearPage();
         title = "#title";
         photo = "#item_photo";
@@ -450,9 +450,45 @@ onload = function(){
             "display": "block",
             "width": pageWidth
         });
-        $("#page").wrapInner('<div id="pageWrapper" />');
-        
-    };
+		$("#page").wrapInner('<div id="pageWrapper" />');
+	};
+      /*
+       * Ej färdigt formulär 
+       */
+	/*function displayItemForm(){
+		clearPage();
+		$("<form enctype='multipart/form-data' action='uploader.php' method='post' id='addform' />").appendTo("#page");
+		$("<input type='hidden' name='MAX_FILE_SIZE' value='100000' />").appendTo("#addform");
+		$("<p/>").text("Choose a file to upload:");
+		$("<input name='uploadedfile' type='file' />").appendTo("#addform");
+		$("<input type='submit' value='Upload File' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("Title:").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("Description: ").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("City: ").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+
+		$("<p/ id='close'>").text("X").appendTo("#page");
+		$("#close").click(function(){
+			$("#page").css({
+				"display": "none",
+				"width": pageWidth
+			});
+		});
+		var pageHeight = $(window).height();
+        var pageWidth = $(window).width() - 350;
+        $("#page").css({
+            "display": "block",
+            "width": pageWidth
+        });
+        $("#close").css({
+			"float": "right"
+		});
+	};*/
     
     function getPhotoFromFlickr(photoId, callback){
         var photoURL;
@@ -474,6 +510,7 @@ onload = function(){
     }
     
     function drawSidebarItems(amount){
+		console.debug("darwside: ", "indexoftopitem: ", indexOfTopItem, "amount: ", amount );
         $("#itemList").empty();
         $("<ul id='itemListItems'/>").appendTo("#itemList");
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
@@ -620,27 +657,62 @@ onload = function(){
         });
     }
     
+	/*
+	 * Pager function that pages items and caculates current position in the paging navigation
+	 * */
     function pager(){
-        $("#pager").empty();
+        $("#leftPager").empty();
+        $("#rightPager").empty();
+        amount = Math.floor($("#sidebar").height() / 140);
+        
+        /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
+        if(indexOfTopItem%amount != 0){
+			for(var i = 0; i < amount; i++){
+				indexOfTopItem-= 1;
+				if(indexOfTopItem%amount == 0){
+					break;
+				}
+			}
+			/*update page properly*/
+			currentpage = indexOfTopItem/amount;
+		}
         var numberOfItems = itemList.length;
-        var amount = Math.floor($("#sidebar").height() / 140);
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;
-        // console.debug("Amount:", amount, $("#sidebar").height());
-        if (currentpage > 1) {
-            $("<span/ class='previous pagebutton'>").text("Previous").appendTo("#pager").click(function(){
-                indexOfTopItem -= amount;
-                currentpage--;
-                pager();
-            });
-        }
-        if (currentpage < topPage) {
-            $("<span/ class='next pagebutton'>").text("Next").appendTo("#pager").click(function(){
-                indexOfTopItem += amount;
-                currentpage++;
-                pager();
-            });
-        }
+        //console.debug("Amount:", amount, $("#sidebar").height());
+        
+		if(topPage != Infinity && topPage != 1){
+			$("<span/ class='pagebutton'>").text(1).appendTo("#leftPager").click(function(){
+				currentpage = 1;
+				indexOfTopItem = 1;
+				pager();
+			});
+			if (currentpage > 1) {
+				$("<span/ class='pagebutton'>").text("Previous").appendTo("#leftPager").click(function(){
+					indexOfTopItem -= amount;
+					currentpage--;
+					console.debug("prev:",currentpage,indexOfTopItem);
+					pager();
+				});
+			}
+			$("<span/ class='pagebutton'>").text(topPage).appendTo("#rightPager").click(function(){
+				currentpage = topPage;
+				indexOfTopItem = (topPage-1)*amount ;
+				console.debug("sista:",currentpage,indexOfTopItem);
+				pager();
+			});
+			if(currentpage < topPage) {
+				$("<span/ class='pagebutton'>").text("Next").appendTo("#rightPager").click(function(){
+					indexOfTopItem += amount;
+					currentpage++;
+					pager();
+				});
+			}
+		}
+		$("#sidebarfooter").empty();
+		/*$("<span/ class='pagebutton formbutton'>").text("NEW FORM").appendTo("#sidebarfooter").click(function(){
+			displayItemForm();
+		});*/
         if (currentpage == topPage && slatt != 0) {
             drawSidebarItems(slatt);
         }

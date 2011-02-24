@@ -52,6 +52,7 @@ onload = function(){
 		pager();
     });
     
+	
     /*
      * toggle the sidebar
      */

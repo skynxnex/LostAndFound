@@ -12,9 +12,8 @@ body {
 	background-color:#FFF;
 	margin:0 auto;
 	font-size:1.0em;
-	color:#999999;
+	color:#000;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
-	height: 100%;
 }
 
 /* headers */
@@ -235,13 +234,18 @@ div#page {
 	left:10px;
 	top: 165px;
 	background: #FFF;
-	display: none;
-	
-	
+	display: none;	
 }
-#itemList ul {
-	height: 140px;
-	width: 290px;
+div#pageWrapper{
+	height:100%;
+	width:100%;
+	position:relative;
+}
+div#pageWrapper>div#close{
+	position:absolute;
+	top:0;
+	right:0;
+	cursor:pointer;
 }
 div#title {
 	width: 600px;
@@ -264,10 +268,9 @@ div#item_text {
 }
 
 div#item_contact{
-	margin-top: 150px;
-	width: 290px;
-	height:5px;
-	float: left;
+	position:absolute;
+	right:0;
+	bottom:0;
 }
 
 div#wrapper {
@@ -291,15 +294,30 @@ div#sidebar p {
 }
 div#sidebar ul {
 	list-style:none;
-	margin:7px 12px;
+	margin:7px 10px;
+	position:relative;
+	height:124px;
+	border-bottom:solid #000 1px;
+	cursor:pointer;
 }
 div#sidebar ul li {
 	padding:3px 0;
 }
 
-div#sidebar h4 {
-	clear:both;	
+div#pager>span.pagebutton{
+	display:block;
+	cursor:pointer;
 }
+
+div#pager>span.previous{
+	float:left;
+	padding-left:10px;
+}
+div#pager>span.next{
+	float:right;
+	padding-right:10px;
+}
+
 /* Togglers */
 #footertoggler{
 	width:25px;
@@ -361,16 +379,28 @@ div#footer p {
 }
 
 .thumbnail {
-	vertical-align: top;
 	width: 70px;
 	height: 60px;
-	padding: 10px 0;
-	float: left;
+	position:absolute;
+	left:0;
+	top:0;
 }
 
 #itemList li {
 	width: 100%;
 	float: left;
+}
+
+#itemList li.sidebarTitle {
+	height:60px;
+	width:210px;
+	float:right;
+}
+
+#itemList li.sidebarTime {
+	position:absolute;
+	left:0;
+	bottom:0;
 }
 
 #itemList li ul{

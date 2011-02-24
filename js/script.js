@@ -49,7 +49,6 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
-        pager();
     });
     
     /*
@@ -117,24 +116,21 @@ onload = function(){
         };
         map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
         
-        /* checks if map is loaded, if it is than update on drag */
-        if (mapLoaded) {
-            google.maps.event.addListener(map, 'dragend', function(){
-                refreshPage("something");
-            });
-        }
-        else {
-            google.maps.event.addListener(map, 'bounds_changed', function(){
-                refreshPage("something");
-                mapLoaded = true;
-                google.maps.event.clearListeners(map, 'bounds_changed');
-                $("div#map_canvas>div>div.gmnoprint").css({
-                    "top": "150px"
-                });
-            });
-        }
         
+        /* checks if map is loaded, if it is than update on drag */
+
+        google.maps.event.addListener(map, 'dragend', function(){
+			console.debug("dragend");
+            refreshPage("something");
+        });
+
+        google.maps.event.addListener(map, 'bounds_changed', function(){
+			console.debug("bounds_changed");
+            refreshPage("something");
+            google.maps.event.clearListeners(map, 'bounds_changed');
+        });
     };
+
     /*
      * Adds click events on sorter buttons "on load"
      */
@@ -212,6 +208,8 @@ onload = function(){
      * Clears all markers and print the current ones
      */
     function drawMarkers(data){
+		
+             console.debug("1markersArray",markersArray.length)
         clearOverlays();
         /* TODO dynamisk storlek för items i listan */
         /*
@@ -221,6 +219,8 @@ onload = function(){
          * 600){ var screensize = 5; }else if(screenheight <= 10000){ var
          * screensize = 8; }
          */
+		
+             console.debug("2markersArray",markersArray.length)
         $.each(data, function(i, item){
             var point = new google.maps.LatLng(item.lat, item.long);
             
@@ -278,7 +278,8 @@ onload = function(){
             for (i in markersArray) {
                 markersArray[i].setMap(null);
             }
-        }
+        };
+		markersArray=[];
     }
     
     /*
@@ -480,7 +481,10 @@ onload = function(){
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
         
             var tempLi = $("<li id='sidebarItem" + i + "'/>");
-            function markerBounce(i,tempLi){
+            
+			function markerBounce(i,tempLi){
+			console.debug("show me markers",i,tempLi,markersArray[i]);
+				console.debug("jump u basterds");
 				tempLi.hover(function(){
 					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
 				},function(){

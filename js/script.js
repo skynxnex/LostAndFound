@@ -6,10 +6,9 @@ onload = function(){
     var sorter = null;
     var mapLoaded = null;
     var itemList;
-    var indexOfTopItem = 0;
+    var indexOfTopItem = 1;
     var currentpage = 1;
-    
-    
+    var amount;
     
     /*
      * actions on load
@@ -224,16 +223,6 @@ onload = function(){
      */
     function drawMarkers(data){
         clearOverlays();
-        /*TODO dynamisk storlek för items i listan*/
-        /*var screenheight = $(window).height();
-         
-         if(screenheight <= 300){
-         var screensize = 3;
-         }else if(screenheight <= 600){
-         var screensize = 5;
-         }else if(screenheight <= 10000){
-         var screensize = 8;
-         }*/
         $.each(data, function(i, item){
             var point = new google.maps.LatLng(item.lat, item.long);
             
@@ -274,31 +263,6 @@ onload = function(){
         });
     };
     /*
-     function drawPaging(data){
-     if(page > 1 && page < data.length()){
-     $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
-     $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-     }else if(page == 1){
-     $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-     }else if(page == data.length()){
-     $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
-     }
-     if($(".pagelinkForth").click()){
-     page+=1;
-     }
-     if($(".pagelinkBack").click()){
-     page-=1;
-     }
-     
-     var amount = $("#sidebar").height()/140;
-     for(var i = page;  i < amount ; i++){
-     var tempArray = new Array();
-     tempArray[] = data[i];
-     drawAdds(tempArray);
-     }
-     }
-     
-     /*
      * Clear marker function
      */
     function clearOverlays(){
@@ -376,6 +340,7 @@ onload = function(){
     function updateViewPort(){
         var viewPortHeight = $(window).height();
         var viewPortWidth = $(window).width();
+        
         $("#map_canvas").css({
             "width": viewPortWidth,
             "height": viewPortHeight
@@ -427,19 +392,17 @@ onload = function(){
         });
     };
     
-    
     /*
      * Empty the #page before reconstruct
      */
     function clearPage(){
-        $("#title,#item_photo,#item_text,#item_contact,#close").empty();
+        $("#title,#item_photo,#item_text,#item_contact,#close,#addform").empty();
         
     };
     /*
      * Draw the new page
      */
     function displayItemPage(i){
-    
         clearPage();
         title = "#title";
         photo = "#item_photo";
@@ -507,10 +470,45 @@ onload = function(){
             "width": pageWidth
         });
 		$("#page").wrapInner('<div id="pageWrapper" />');
+	};
         
-    };
+	function displayItemForm(){
+		clearPage();
+		$("<form enctype='multipart/form-data' action='uploader.php' method='post' id='addform' />").appendTo("#page");
+		$("<input type='hidden' name='MAX_FILE_SIZE' value='100000' />").appendTo("#addform");
+		$("<p/>").text("Choose a file to upload:");
+		$("<input name='uploadedfile' type='file' />").appendTo("#addform");
+		$("<input type='submit' value='Upload File' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("Title:").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("Description: ").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+		$("<br />").appendTo("#addform");
+		$("<p/>").text("City: ").appendTo("#addform");
+		$("<input type='text' name='title' />").appendTo("#addform");
+
+		$("<p/ id='close'>").text("X").appendTo("#page");
+		$("#close").click(function(){
+			$("#page").css({
+				"display": "none",
+				"width": pageWidth
+			});
+		});
+		var pageHeight = $(window).height();
+        var pageWidth = $(window).width() - 350;
+        $("#page").css({
+            "display": "block",
+            "width": pageWidth
+        });
+        $("#close").css({
+			"float": "right"
+		});
+	};
     
     function drawSidebarItems(amount){
+		console.debug("darwside: ", "indexoftopitem: ", indexOfTopItem, "amount: ", amount );
         $("#itemList").empty();
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
             tempUl = $("<ul/>").addClass("sidebarItem"+i);
@@ -544,26 +542,55 @@ onload = function(){
         };
             };
     function pager(){
-        $("#pager").empty();
+        $("#leftPager").empty();
+        $("#rightPager").empty();
+        amount = Math.floor($("#sidebar").height() / 140);
+        if(indexOfTopItem%amount != 0){
+			for(var i = 0; i < amount; i++){
+				indexOfTopItem-= 1;
+				if(indexOfTopItem%amount == 0){
+					break;
+				}
+			}
+			currentpage = indexOfTopItem/amount;
+		}
         var numberOfItems = itemList.length;
-        var amount = Math.floor($("#sidebar").height() / 140);
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;
         //console.debug("Amount:", amount, $("#sidebar").height());
-        if (currentpage > 1) {
-            $("<span/ class='previous pagebutton'>").text("Previous").appendTo("#pager").click(function(){
-                indexOfTopItem -= amount;
-                currentpage--;
-                pager();
-            });
-        }
-        if (currentpage < topPage) {
-            $("<span/ class='next pagebutton'>").text("Next").appendTo("#pager").click(function(){
-                indexOfTopItem += amount;
-                currentpage++;
-                pager();
-            });
-        }
+        
+		if(topPage != Infinity && topPage != 1){
+			$("<span/ class='pagebutton'>").text(1).appendTo("#leftPager").click(function(){
+				currentpage = 1;
+				indexOfTopItem = 1;
+				pager();
+			});
+			if (currentpage > 1) {
+				$("<span/ class='pagebutton'>").text("Previous").appendTo("#leftPager").click(function(){
+					indexOfTopItem -= amount;
+					currentpage--;
+					console.debug("prev:",currentpage,indexOfTopItem);
+					pager();
+				});
+			}
+			$("<span/ class='pagebutton'>").text(topPage).appendTo("#rightPager").click(function(){
+				currentpage = topPage;
+				indexOfTopItem = (topPage-1)*amount ;
+				console.debug("sista:",currentpage,indexOfTopItem);
+				pager();
+			});
+			if(currentpage < topPage) {
+				$("<span/ class='pagebutton'>").text("Next").appendTo("#rightPager").click(function(){
+					indexOfTopItem += amount;
+					currentpage++;
+					pager();
+				});
+			}
+		}
+		$("#sidebarfooter").empty();
+		/*$("<span/ class='pagebutton formbutton'>").text("NEW FORM").appendTo("#sidebarfooter").click(function(){
+			displayItemForm();
+		});*/
         if (currentpage == topPage && slatt != 0) {
             drawSidebarItems(slatt);
         }

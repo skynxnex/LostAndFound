@@ -1,7 +1,9 @@
 <div id="sidebar">
+	<div id="sidebarToggler"></div>
 	<h2>Latest added</h2>
-		<ul id="itemList">
+		<div id="itemList">
 		
-		</ul>
+		</div>
+		<div id="pager"></div>
 		<div id="sidebarfooter"></div>
 </div>

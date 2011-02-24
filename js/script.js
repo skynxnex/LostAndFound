@@ -1,6 +1,4 @@
 onload = function(){
-    var originalThumbnailWidth = $('.thumbnail').width();
-    var originalThumbnailHeight = $('.thumbnail').height();
     var markersArray = [];
     var map;
     var sorter = null;
@@ -350,26 +348,7 @@ onload = function(){
     };
     
     
-    // Thumbnail animation
-    /*
-     $('.thumbnail').animate({
-     height: "100%",
-     width: "100%"
-     }, 2000);
-     
-     
-     
-     $('.thumbnail').mouseleave(function(event){
-     
-     $target = (event.target);
-     
-     $($target).stop().animate({
-     height: originalThumbnailHeight,
-     width: originalThumbnailWidth
-     }, 500).delay(500);
-     
-     });
-     */
+
     /*
      * Update DOM sizes after window resizing
      */
@@ -450,11 +429,11 @@ onload = function(){
         
         $("<h2/>").text(itemList[i].lost_found + " : " + itemList[i].title).appendTo(title);
         if (itemList[i].item_picture_link != null) {
-            $("<img src='" + itemList[i].item_picture_link + "'/>").appendTo(photo);
+            $("<img class='thumbnail' src='" + itemList[i].item_picture_link + "'/>").appendTo(photo);
         }
         else 
             if (itemList[i].where_picture_link != null) {
-                $("<img src='" + itemList[i].where_picture_link + "'/>").appendTo(photo);
+                $("<img class='thumbnail' src='" + itemList[i].where_picture_link + "'/>").appendTo(photo);
             }
         if (itemList[i].description != null) {
             $("<p/>").text("Description: " + itemList[i].description).appendTo(text);
@@ -542,7 +521,30 @@ onload = function(){
                 
             });
         };
-            };
+        var originalThumbnailWidth = $('.thumbnail').width();
+		var originalThumbnailHeight = $('.thumbnail').height();
+    
+		$('.thumbnail').mouseenter(function(event){
+		
+			$target = (event.target);
+		
+		$($target).animate({
+				height: "120",
+				width: "235"
+			}, 500);
+		});	
+		$('.thumbnail').mouseleave(function(event){
+		
+			$target = (event.target);
+			
+			$($target).stop().animate({
+				height: originalThumbnailHeight,
+				width: originalThumbnailWidth
+			}, 500).delay(500);
+		});
+			
+		};
+
     function pager(){
         $("#pager").empty();
         var numberOfItems = itemList.length;

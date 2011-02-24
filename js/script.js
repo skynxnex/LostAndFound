@@ -11,7 +11,7 @@ onload = function() {
 		var latlng; // = new google.maps.LatLng(59.309888773597095,
 		// 18.050005859375005);
 		var myOptions = {
-			zoom : 5,
+			zoom : 13,
 			center : latlng,
 			mapTypeId : google.maps.MapTypeId.ROADMAP
 		};
@@ -33,7 +33,8 @@ onload = function() {
 				"nelong" : northEast.Ba
 			}, drawMarkers);
 			function drawMarkers(data) {
-				$.each(data,
+				if(data !=null) {
+					$.each(data,
 						function(i, coords) {
 							var point = new google.maps.LatLng(coords.lat, coords.long);
 							var marker = new google.maps.Marker( {
@@ -41,6 +42,7 @@ onload = function() {
 								map : map
 							});
 						});
+				}
 			};
 		});
 
@@ -75,8 +77,6 @@ onload = function() {
 					function(data) {
 						latlng = new google.maps.LatLng(
 								data.geoplugin_latitude,
-								data.geoplugin_longitude);
-						console.debug(data.geoplugin_latitude,
 								data.geoplugin_longitude);
 						map.setCenter(latlng);
 					});

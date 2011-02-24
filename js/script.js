@@ -1,6 +1,4 @@
 onload = function(){
-    var originalThumbnailWidth = $('.thumbnail').width();
-    var originalThumbnailHeight = $('.thumbnail').height();
     var markersArray = [];
     var map;
     var sorter = null;
@@ -8,7 +6,9 @@ onload = function(){
     var itemList;
     var indexOfTopItem = 1;
     var currentpage = 1;
-    var amount;
+    var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
+    var photoId;
+    var liRatio = 240 / 124;
     
     /*
      * actions on load
@@ -17,7 +17,6 @@ onload = function(){
     updateViewPort();
     activateSortButtons();
     backupLocation();
-    
     
     /*
      * hover the togglebuttons
@@ -29,14 +28,16 @@ onload = function(){
             $(this).css({
                 "background-position": backgroundX + "px -25px"
             });
-            //console.debug("hover prop on",$(this).css("background-position"));
+            // console.debug("hover prop
+            // on",$(this).css("background-position"));
         },
         off: function(){
             var backgroundX = $(this).css("background-position").split("px")[0];
             $(this).css({
                 "background-position": backgroundX + "px 0px"
             });
-            //console.debug("hover prop off", $(this).css("background-position"));
+            // console.debug("hover prop off",
+            // $(this).css("background-position"));
         }
     };
     
@@ -48,10 +49,7 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
-        pager();
     });
-    
-    
     
     /*
      * toggle the sidebar
@@ -98,13 +96,8 @@ onload = function(){
         })
     });
     
-    
-    
-    
-    
     /*
-     * Make map
-     * and add listners
+     * Make map and add listners
      */
     function initialize(){
         var latlng; // = new google.maps.LatLng(59.309888773597095,
@@ -124,26 +117,20 @@ onload = function(){
         map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
         
         
-        
         /* checks if map is loaded, if it is than update on drag */
-        if (mapLoaded) {
-            google.maps.event.addListener(map, 'dragend', function(){
-                refreshPage("something");
-            });
-        }
-        else {
-            google.maps.event.addListener(map, 'bounds_changed', function(){
-                refreshPage("something");
-                mapLoaded = true;
-                google.maps.event.clearListeners(map, 'bounds_changed');
-                $("div#map_canvas>div>div.gmnoprint").css({
-                    "top": "150px"
-                });
-            });
-        }
-        
-        
+
+        google.maps.event.addListener(map, 'dragend', function(){
+			console.debug("dragend");
+            refreshPage("something");
+        });
+
+        google.maps.event.addListener(map, 'bounds_changed', function(){
+			console.debug("bounds_changed");
+            refreshPage("something");
+            google.maps.event.clearListeners(map, 'bounds_changed');
+        });
     };
+
     /*
      * Adds click events on sorter buttons "on load"
      */
@@ -177,8 +164,7 @@ onload = function(){
         });
     }
     /*
-     * Refreshes markers on map, takes lost and found changes
-     * default is all.
+     * Refreshes markers on map, takes lost and found changes default is all.
      */
     function refreshPage(choice){
         if (choice == "lost" || choice == "found") {
@@ -219,10 +205,22 @@ onload = function(){
         }
     }
     /*
-     *	Clears all markers and print the current ones
+     * Clears all markers and print the current ones
      */
     function drawMarkers(data){
+		
+             console.debug("1markersArray",markersArray.length)
         clearOverlays();
+        /* TODO dynamisk storlek för items i listan */
+        /*
+         * var screenheight = $(window).height();
+         *
+         * if(screenheight <= 300){ var screensize = 3; }else if(screenheight <=
+         * 600){ var screensize = 5; }else if(screenheight <= 10000){ var
+         * screensize = 8; }
+         */
+		
+             console.debug("2markersArray",markersArray.length)
         $.each(data, function(i, item){
             var point = new google.maps.LatLng(item.lat, item.long);
             
@@ -263,44 +261,41 @@ onload = function(){
         });
     };
     /*
-     * Clear marker function
+     * function drawPaging(data){ if(page > 1 && page < data.length()){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
+     * $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+     * }else if(page == 1){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
+     * }else if(page == data.length()){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<"); }
+     * if($(".pagelinkForth").click()){ page+=1; }
+     * if($(".pagelinkBack").click()){ page-=1; }
+     *
+     * var amount = $("#sidebar").height()/140; for(var i = page; i < amount ;
+     * i++){ var tempArray = new Array(); tempArray[] = data[i];
+     * drawAdds(tempArray); } }
+     *  /* Clear marker function
      */
     function clearOverlays(){
         if (markersArray) {
             for (i in markersArray) {
                 markersArray[i].setMap(null);
             }
-        }
+        };
+		markersArray=[];
     }
     
     /*
      * Gets your current position if user accepts it
-     
-     if (navigator.geolocation) {
-     browserSupportFlag = true;
-     navigator.geolocation.getCurrentPosition(function(position){
-     latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-     map.setCenter(latlng);
-     }, function(){
-     backupLocation();
-     });
-     // Try Google Gears Geolocation
-     }
-     else if (google.gears) {
-     browserSupportFlag = true;
-     var geo = google.gears.factory.create('beta.geolocation');
-     geo.getCurrentPosition(function(position){
-     latlng = new google.maps.LatLng(position.latitude, position.longitude);
-     map.setCenter(latlng);
-     }, function(){
-     backupLocation();
-     });
-     // Browser doesn't support Geolocation
-     }
-     else {
-     browserSupportFlag = false;
-     backupLocation();
-     }
+     *
+     * if (navigator.geolocation) { browserSupportFlag = true;
+     * navigator.geolocation.getCurrentPosition(function(position){ latlng = new
+     * google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+     * map.setCenter(latlng); }, function(){ backupLocation(); }); // Try Google
+     * Gears Geolocation } else if (google.gears) { browserSupportFlag = true;
+     * var geo = google.gears.factory.create('beta.geolocation');
+     * geo.getCurrentPosition(function(position){ latlng = new
+     * google.maps.LatLng(position.latitude, position.longitude);
+     * map.setCenter(latlng); }, function(){ backupLocation(); }); // Browser
+     * doesn't support Geolocation } else { browserSupportFlag = false;
+     * backupLocation(); }
      */
     /*
      * If user don't accept your location find by ip-location
@@ -308,32 +303,11 @@ onload = function(){
     function backupLocation(){
         $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data){
             latlng = new google.maps.LatLng(data.geoplugin_latitude, data.geoplugin_longitude);
-            //console.debug(data.geoplugin_latitude, data.geoplugin_longitude);
+            // console.debug(data.geoplugin_latitude, data.geoplugin_longitude);
             map.setCenter(latlng);
         });
     };
     
-    
-    // Thumbnail animation
-    /*
-     $('.thumbnail').animate({
-     height: "100%",
-     width: "100%"
-     }, 2000);
-     
-     
-     
-     $('.thumbnail').mouseleave(function(event){
-     
-     $target = (event.target);
-     
-     $($target).stop().animate({
-     height: originalThumbnailHeight,
-     width: originalThumbnailWidth
-     }, 500).delay(500);
-     
-     });
-     */
     /*
      * Update DOM sizes after window resizing
      */
@@ -409,15 +383,22 @@ onload = function(){
         text = "#item_text";
         contact = "#item_contact";
         
-        //console.debug("Sidans alla ojekt", i, itemList);
+        // console.debug("Sidans alla ojekt", i, itemList);
         
         $("<h2/>").text(itemList[i].lost_found + " : " + itemList[i].title).appendTo(title);
         if (itemList[i].item_picture_link != null) {
-            $("<img src='" + itemList[i].item_picture_link + "'/>").appendTo(photo);
+            function x(i){
+                getPhotoFromFlickr(itemList[i].item_picture_link, function(photoURL){
+                    $("<img src='" + photoURL + "'/>").appendTo(photo);
+                });
+            }
+            x(i);
         }
         else 
             if (itemList[i].where_picture_link != null) {
-                $("<img src='" + itemList[i].where_picture_link + "'/>").appendTo(photo);
+                $("<img class='thumbnail' src='" +
+                itemList[i].where_picture_link +
+                "'/>").appendTo(photo);
             }
         if (itemList[i].description != null) {
             $("<p/>").text("Description: " + itemList[i].description).appendTo(text);
@@ -432,7 +413,8 @@ onload = function(){
             $("<p/>").text(itemList[i].when_comment).appendTo(text);
         }
         if (itemList[i].where_street && itemList[i].where_street_no != null) {
-            $("<p/>").text("Where: " + itemList[i].where_street + " " + itemList[i].where_street_no).appendTo(text);
+            $("<p/>").text("Where: " + itemList[i].where_street + " " +
+            itemList[i].where_street_no).appendTo(text);
         }
         if (itemList[i].where_city != null) {
             $("<p/>").text(itemList[i].where_city).appendTo(text);
@@ -448,7 +430,8 @@ onload = function(){
             $("<p/>").text(itemList[i].phone).appendTo(contact);
         }
         if (itemList[i].contact_street && itemList[i].contact_street_no != null) {
-            $("<p/>").text(itemList[i].contact_street + " " + itemList[i].contact_street_no).appendTo(contact);
+            $("<p/>").text(itemList[i].contact_street + " " +
+            itemList[i].contact_street_no).appendTo(contact);
         }
         if (itemList[i].contact_city != null) {
             $("<p/>").text(itemList[i].contact_city).appendTo(contact);
@@ -471,8 +454,10 @@ onload = function(){
         });
 		$("#page").wrapInner('<div id="pageWrapper" />');
 	};
-        
-	function displayItemForm(){
+      /*
+       * Ej färdigt formulär 
+       */
+	/*function displayItemForm(){
 		clearPage();
 		$("<form enctype='multipart/form-data' action='uploader.php' method='post' id='addform' />").appendTo("#page");
 		$("<input type='hidden' name='MAX_FILE_SIZE' value='100000' />").appendTo("#addform");
@@ -505,46 +490,184 @@ onload = function(){
         $("#close").css({
 			"float": "right"
 		});
-	};
+	};*/
+    
+    function getPhotoFromFlickr(photoId, callback){
+        var photoURL;
+        $.getJSON('http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key=' + apiKey + '&user_id=59832845@N07&format=json&jsoncallback=?', function(data){
+            $.each(data.photos.photo, function(i, item){
+                if (item.id == photoId) {
+                    photoURL = 'http://farm' + item.farm +
+                    '.static.flickr.com/' +
+                    item.server +
+                    '/' +
+                    item.id +
+                    '_' +
+                    item.secret +
+                    '_m.jpg';
+                    callback(photoURL);
+                }
+            });
+        });
+    }
     
     function drawSidebarItems(amount){
 		console.debug("darwside: ", "indexoftopitem: ", indexOfTopItem, "amount: ", amount );
         $("#itemList").empty();
+        $("<ul id='itemListItems'/>").appendTo("#itemList");
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
-            tempUl = $("<ul/>").addClass("sidebarItem"+i);
+        
+            var tempLi = $("<li id='sidebarItem" + i + "'/>");
             
+			function markerBounce(i,tempLi){
+			console.debug("show me markers",i,tempLi,markersArray[i]);
+				console.debug("jump u basterds");
+				tempLi.hover(function(){
+					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
+				},function(){
+					markersArray[i].setAnimation(google.maps.Animation.null)
+				});
+			};
+			markerBounce(i,tempLi);
             if (itemList[i].item_picture_link != null) {
-                $("<img class='thumbnail' src='" + itemList[i].item_picture_link + "'/>").appendTo($(tempUl));
+                function addThumbnail(i, tempLi){
+                    getPhotoFromFlickr(itemList[i].item_picture_link, function(photoURL){
+                        var img = $("<img class='thumbnail' src='" + photoURL + "'/>").appendTo(tempLi);
+						img.css({"display":"none"});
+                        img.load(function(){
+                            var maxWidth = 70; // Max width for the image
+                            var maxHeight = 60; // Max height for the image
+                            var ratio = 0; // Used for aspect ratio
+                            var width = $(this).width(); // Current image width
+                            var height = $(this).height(); // Current image height
+                            // Check if the current width is larger than the max
+                            if (width > maxWidth) {
+                                ratio = maxWidth / width; // get ratio for scaling image
+                                $(this).css("width", maxWidth); // Set new width
+                                $(this).css("height", height * ratio); // Scale height based on ratio
+                                height = height * ratio; // Reset height to match scaled image
+                                width = width * ratio; // Reset width to match scaled image
+                            }
+                            
+                            // Check if current height is larger than max
+                            if (height > maxHeight) {
+                                ratio = maxHeight / height; // get ratio for scaling image
+                                $(this).css("height", maxHeight); // Set new height
+                                $(this).css("width", width * ratio); // Scale width based on ratio
+                                width = width * ratio; // Reset width to match scaled image
+                            }
+							$(this).css({"display":"block"});
+                        });
+                        img.hover(imageHoverIn, imageHoverOut);
+                    });
+                }
+                addThumbnail(i, tempLi);
             }
             else 
                 if (itemList[i].where_picture_link != null) {
-                    $("<img class='thumbnail' src='" + itemList[i].where_picture_link + "'/>").appendTo($(tempUl));
+                    getPhotoFromFlickr(itemList[i].item_picture_link, function(photoURL){
+                        var img = $("<img class='thumbnail' src='" + photoURL + "'/>").appendTo(tempLi);
+                        img.hover(imageHoverIn, imageHoverOut);
+                    });
+                }
+                else {
+                
                 }
             
-            $("<li/ class='sidebarTitle " + itemList[i].lost_found + "'>").text(itemList[i].lost_found + ": " + itemList[i].title).appendTo($(tempUl));
+            $("<div/ class='sidebarTitle " + itemList[i].lost_found + "'>").text(itemList[i].lost_found + ": " + itemList[i].title).appendTo($(tempLi));
             if (itemList[i].description != null) {
-                $("<li class='sidebarDescription'/>").text("Description: " + itemList[i].description).appendTo($(tempUl));
+                $("<div class='sidebarDescription'/>").text("Description: " + itemList[i].description).appendTo($(tempLi));
             }
             if (itemList[i].datetime != null) {
-                $("<li/ class='sidebarTime'>").text("When: " + itemList[i].datetime).appendTo($(tempUl));
+                $("<div/ class='sidebarTime'>").text("When: " + itemList[i].datetime).appendTo($(tempLi));
             }
             else {
-                $("<li/ class='sidebarTime'>").text("When: " + itemList[i].timestamp).appendTo($(tempUl));
+                $("<div/ class='sidebarTime'>").text("When: " + itemList[i].timestamp).appendTo($(tempLi));
             }
-            tempUl.appendTo("#itemList");
-            $(".sidebarItem"+i).bind('click', {
+            tempLi.appendTo("#itemListItems");
+            $("#sidebarItem" + i).bind('click', {
                 index: i
             }, function(event){
-                //console.debug("i som skickas",event.data.index);
+                // console.debug("i som skickas",event.data.index);
                 displayItemPage(event.data.index);
                 
             });
         };
             };
+    
+    function imageHoverOut(){
+        $(this).each(function(){
+            var maxWidth = 70; // Max width for the image
+            var maxHeight = 60; // Max height for the image
+            var ratio = 0; // Used for aspect ratio
+            var width = $(this).css("width").split("px")[0]; // Current image width
+            var height = $(this).css("height").split("px")[0]; // Current image height
+            // Check if the current width is larger than the max
+            console.debug("before", width, height);
+            
+            // Check if current height is larger than max
+            if (height > maxHeight) {
+                ratio = maxHeight / height; // get ratio for scaling image
+                $(this).animate({
+                    "height": maxHeight,
+                    "width": width * ratio
+                }, 300); // Scale width based on ratio
+                height = maxHeight; // Reset height to match scaled image
+                width = width * ratio; // Reset width to match scaled image
+            	console.debug("height", width, height);
+            }
+            if (width > maxWidth) {
+                ratio = maxWidth / width; // get ratio for scaling image
+                $(this).animate({
+                    "height": height * ratio,
+                    "width": maxWidth
+                }, 100); // Scale width based on ratio
+                height = maxHeight; // Reset height to match scaled image
+                width = height * ratio; // Reset width to match scaled image
+            	console.debug("width", width, height);
+            }
+        });
+    }
+    
+    function imageHoverIn(){
+        $(this).each(function(){
+            var maxWidth = 260; // Max width for the image
+            var maxHeight = 124; // Max height for the image
+            var ratio = 0; // Used for aspect ratio
+            var width = $(this).css("width").split("px")[0]; // Current image width
+            var height = $(this).css("height").split("px")[0]; // Current image height
+            // Check if the current width is larger than the max
+            // Check if current height is larger than max
+            if (height < maxHeight) {
+                ratio = maxHeight / height; // get ratio for scaling image
+                $(this).stop().animate({
+                    "height": maxHeight,
+                    "width": width * ratio
+                }, 300); // Scale width based on ratio
+                height = maxHeight; // Reset height to match scaled image
+                width = width * ratio; // Reset width to match scaled image
+            }
+            if (width > maxWidth) {
+                ratio = maxWidth / width; // get ratio for scaling image
+                $(this).stop().animate({
+                    "height": maxHeight,
+                    "width": height * ratio
+                }, 100); // Scale width based on ratio
+                height = maxHeight; // Reset height to match scaled image
+                width = height * ratio; // Reset width to match scaled image
+            }
+        });
+    }
+    
+	/*
+	 * Pager function that pages items and caculates current position in the paging navigation
+	 * */
     function pager(){
         $("#leftPager").empty();
         $("#rightPager").empty();
         amount = Math.floor($("#sidebar").height() / 140);
+        
+        /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
         if(indexOfTopItem%amount != 0){
 			for(var i = 0; i < amount; i++){
 				indexOfTopItem-= 1;
@@ -552,6 +675,7 @@ onload = function(){
 					break;
 				}
 			}
+			/*update page properly*/
 			currentpage = indexOfTopItem/amount;
 		}
         var numberOfItems = itemList.length;
@@ -597,7 +721,7 @@ onload = function(){
         else {
             drawSidebarItems(amount);
         }
-        //alert(amount);
-        //alert(numberOfTopItem);
+        // alert(amount);
+        // alert(numberOfTopItem);
     }
 };

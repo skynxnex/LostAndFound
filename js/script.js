@@ -480,7 +480,14 @@ onload = function(){
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
         
             var tempLi = $("<li id='sidebarItem" + i + "'/>");
-            
+            function markerBounce(i,tempLi){
+				tempLi.hover(function(){
+					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
+				},function(){
+					markersArray[i].setAnimation(google.maps.Animation.null)
+				});
+			};
+			markerBounce(i,tempLi);
             if (itemList[i].item_picture_link != null) {
                 function addThumbnail(i, tempLi){
                     getPhotoFromFlickr(itemList[i].item_picture_link, function(photoURL){

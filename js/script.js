@@ -37,7 +37,7 @@ onload = function(){
             $(this).css({
                 "background-position": backgroundX + "px 0px"
             });
-            console.debug("hover prop off", $(this).css("background-position"));
+            //console.debug("hover prop off", $(this).css("background-position"));
         }
     };
     
@@ -49,7 +49,7 @@ onload = function(){
      */
     $(window).resize(function(){
         updateViewPort();
-		pager();
+        pager();
     });
     
     
@@ -66,8 +66,6 @@ onload = function(){
         $("#footer").css({
             "height": "200px"
         });
-        console.debug("background pos footer", $("#sidebarToggler").css("background-position"));
-        console.debug("background pos footer", "-150px " + backgroundY);
     }, function(){
         $("#footertoggler").css({
             "bottom": "",
@@ -90,7 +88,6 @@ onload = function(){
         $("#sidebar, #sidebar h2,#sidebarfooter").css({
             "right": "-290px"
         });
-        console.debug("background pos sidebar", $("#sidebarToggler").css("background-position"));
         
     }, function(){
         $("#sidebarToggler").css({
@@ -156,8 +153,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('found');
             var choice = "found";
-			currentpage=1;
-   			indexOfTopItem=0;
+            currentpage = 1;
+            indexOfTopItem = 0;
             refreshPage(choice);
             return false;
         });
@@ -165,8 +162,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('lost');
             var choice = "lost";
-			currentpage=1;
-   			indexOfTopItem = 0;
+            currentpage = 1;
+            indexOfTopItem = 0;
             refreshPage(choice);
             return false;
         });
@@ -174,8 +171,8 @@ onload = function(){
             $('body').removeClass();
             $('body').addClass('all');
             var choice = "all";
-			currentpage=1;
-   			indexOfTopItem = 0;
+            currentpage = 1;
+            indexOfTopItem = 0;
             refreshPage(choice);
             return false;
         });
@@ -187,10 +184,12 @@ onload = function(){
     function refreshPage(choice){
         if (choice == "lost" || choice == "found") {
             sorter = choice;
-        } else if (choice == "all") {
+        }
+        else 
+            if (choice == "all") {
                 sorter = null;
-         }
-        itemList=[];
+            }
+        itemList = [];
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();
         var northEast = bounds.getNorthEast();
@@ -202,10 +201,9 @@ onload = function(){
                 "ystart": southWest.za,
                 "yend": northEast.za
             }, function(data){
-				itemList = data;
+                itemList = data;
                 drawMarkers(data);
                 pager();
-                console.debug(itemList[0].title);
             });
         }
         else {
@@ -215,10 +213,9 @@ onload = function(){
                 "ystart": southWest.za,
                 "yend": northEast.za
             }, function(data){
-				itemList = data;
+                itemList = data;
                 drawMarkers(data);
                 pager();
-                console.debug(itemList[0].title);
             });
         }
     }
@@ -239,7 +236,6 @@ onload = function(){
          }*/
         $.each(data, function(i, item){
             var point = new google.maps.LatLng(item.lat, item.long);
-            console.debug(item.lat, item.long);
             
             if (item.lost_found == "lost") {
                 var image = "layout/lost-icon.png";
@@ -348,7 +344,7 @@ onload = function(){
     function backupLocation(){
         $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data){
             latlng = new google.maps.LatLng(data.geoplugin_latitude, data.geoplugin_longitude);
-            console.debug(data.geoplugin_latitude, data.geoplugin_longitude);
+            //console.debug(data.geoplugin_latitude, data.geoplugin_longitude);
             map.setCenter(latlng);
         });
     };
@@ -406,9 +402,12 @@ onload = function(){
             });
         }
         var sidebarHeight = viewPortHeight - 101;
-        // console.debug("Sidebar height", sidebarHeight);
         $("#sidebar").css({
             "height": sidebarHeight
+        });
+        var pageHeight = viewPortHeight - 210;
+        $("#page").css({
+            "height": pageHeight
         });
         $("map_canvas").css({
             "height": viewPortHeight,
@@ -447,7 +446,7 @@ onload = function(){
         text = "#item_text";
         contact = "#item_contact";
         
-        console.debug("Sidans alla ojekt", itemList);
+        console.debug("Sidans alla ojekt", i, itemList);
         
         $("<h2/>").text(itemList[i].lost_found + " : " + itemList[i].title).appendTo(title);
         if (itemList[i].item_picture_link != null) {
@@ -507,66 +506,71 @@ onload = function(){
             "display": "block",
             "width": pageWidth
         });
+		$("#page").wrapInner('<div id="pageWrapper" />');
         
     };
     
-    function drawAdds(amount) {
-		$("#itemList").empty(); 
-		console.debug("itemlist:",amount, indexOfTopItem, itemList);
-		for(var i = indexOfTopItem; i < indexOfTopItem+amount; i++){	
-			tempUl = $("<ul/>").addClass("sidebarItem"+i);
-			
-			if(itemList[i].item_picture_link != null){
-				$("<img class='thumbnail' src='"+itemList[i].item_picture_link+"'/>").appendTo($(tempUl));
-			} else if(itemList[i].where_picture_link != null){
-				$("<img class='thumbnail' src='"+itemList[i].where_picture_link+"'/>").appendTo($(tempUl));
-			}
-			$("<li/>").text(itemList[i].lost_found).appendTo($(tempUl));
-			$("<li class='sidebarTitle'/>").text("What: "+itemList[i].title).appendTo($(tempUl));
-			if(itemList[i].description != null){
-				$("<li class='sidebarDescription'/>").text("Description: "+itemList[i].description).appendTo($(tempUl));
-			}
-			if(itemList[i].datetime != null){
-				$("<li/ class='sidebarTime'>").text("When: "+itemList[i].datetime).appendTo($(tempUl));
-			} else {
-				$("<li/ class='sidebarTime'>").text("When: "+itemList[i].timestamp).appendTo($(tempUl));
-			}
-			tempUl.appendTo("#itemList");
-			$(".sidebarItem"+i).click(function(event) {	
-				
-				displayItemPage(i);
-
-			});
-		};
-	};
+    function drawSidebarItems(amount){
+        $("#itemList").empty();
+        for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
+            tempUl = $("<ul/>").addClass("sidebarItem"+i);
+            
+            if (itemList[i].item_picture_link != null) {
+                $("<img class='thumbnail' src='" + itemList[i].item_picture_link + "'/>").appendTo($(tempUl));
+            }
+            else 
+                if (itemList[i].where_picture_link != null) {
+                    $("<img class='thumbnail' src='" + itemList[i].where_picture_link + "'/>").appendTo($(tempUl));
+                }
+            
+            $("<li/ class='sidebarTitle " + itemList[i].lost_found + "'>").text(itemList[i].lost_found + ": " + itemList[i].title).appendTo($(tempUl));
+            if (itemList[i].description != null) {
+                $("<li class='sidebarDescription'/>").text("Description: " + itemList[i].description).appendTo($(tempUl));
+            }
+            if (itemList[i].datetime != null) {
+                $("<li/ class='sidebarTime'>").text("When: " + itemList[i].datetime).appendTo($(tempUl));
+            }
+            else {
+                $("<li/ class='sidebarTime'>").text("When: " + itemList[i].timestamp).appendTo($(tempUl));
+            }
+            tempUl.appendTo("#itemList");
+            $(".sidebarItem"+i).bind('click', {
+                index: i
+            }, function(event){
+                console.debug("i som skickas",event.data.index);
+                displayItemPage(event.data.index);
+                
+            });
+        };
+            };
     function pager(){
-		$("#pager").empty();
-		var numberOfItems = itemList.length;
-		var amount = Math.floor($("#sidebar").height()/140);
-		var topPage= Math.ceil(numberOfItems/amount);
-		var slatt = numberOfItems%amount;
-		console.debug("Amount:",amount,$("#sidebar").height());
-		$("<a/>").text("Previous").appendTo("#pager").addClass("pagelink").click(function(){
-			if(currentpage > 1){
-					indexOfTopItem -= amount;
-					currentpage--; 
-			}
-			pager();
-		});
-		$("<a/>").text("Next").appendTo("#pager").addClass("pagelink").click(function(){
-			if(currentpage < numberOfItems/amount){
-					indexOfTopItem += amount; 
-					currentpage++;
-			}
-			pager();
-		});
-		if(currentpage==topPage&&slatt!=0){
-			amount=slatt;
-		}
-		var slatt = numberOfItems%amount;
-		Math.ceil(numberOfItems/amount);
-		drawAdds(amount);
-		//alert(amount);
-		//alert(numberOfTopItem);
-	}   
+        $("#pager").empty();
+        var numberOfItems = itemList.length;
+        var amount = Math.floor($("#sidebar").height() / 140);
+        var topPage = Math.ceil(numberOfItems / amount);
+        var slatt = numberOfItems % amount;
+        console.debug("Amount:", amount, $("#sidebar").height());
+        if (currentpage > 1) {
+            $("<span/ class='previous pagebutton'>").text("Previous").appendTo("#pager").click(function(){
+                indexOfTopItem -= amount;
+                currentpage--;
+                pager();
+            });
+        }
+        if (currentpage < topPage) {
+            $("<span/ class='next pagebutton'>").text("Next").appendTo("#pager").click(function(){
+                indexOfTopItem += amount;
+                currentpage++;
+                pager();
+            });
+        }
+        if (currentpage == topPage && slatt != 0) {
+            drawSidebarItems(slatt);
+        }
+        else {
+            drawSidebarItems(amount);
+        }
+        //alert(amount);
+        //alert(numberOfTopItem);
+    }
 };

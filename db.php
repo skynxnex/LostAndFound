@@ -26,10 +26,10 @@ function makeQuery($filter){
 
 function connect() {
 	// Tillfälliga inställningar för lokalt
-	$host = "127.0.0.1";
-	$user = "root";
-	$pass = "root";
-	$db = "test";
+	$host = "mysql38.kontrollpanelen.se";
+	$user = "web74565_LnF65";
+	$pass = "g9L8UD7Z";
+	$db = "web74565_LnF65";
 
 	// Inställningar när 3306 porten funkar
 	// $host = "mysql38.kontrollpanelen.se:3306";

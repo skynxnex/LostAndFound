@@ -446,7 +446,7 @@ onload = function(){
         text = "#item_text";
         contact = "#item_contact";
         
-        console.debug("Sidans alla ojekt", i, itemList);
+        //console.debug("Sidans alla ojekt", i, itemList);
         
         $("<h2/>").text(itemList[i].lost_found + " : " + itemList[i].title).appendTo(title);
         if (itemList[i].item_picture_link != null) {
@@ -537,7 +537,7 @@ onload = function(){
             $(".sidebarItem"+i).bind('click', {
                 index: i
             }, function(event){
-                console.debug("i som skickas",event.data.index);
+                //console.debug("i som skickas",event.data.index);
                 displayItemPage(event.data.index);
                 
             });
@@ -549,7 +549,7 @@ onload = function(){
         var amount = Math.floor($("#sidebar").height() / 140);
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;
-        console.debug("Amount:", amount, $("#sidebar").height());
+        //console.debug("Amount:", amount, $("#sidebar").height());
         if (currentpage > 1) {
             $("<span/ class='previous pagebutton'>").text("Previous").appendTo("#pager").click(function(){
                 indexOfTopItem -= amount;

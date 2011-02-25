@@ -312,11 +312,13 @@ div#rightPager, div#rightPager span{
 	float:right;
 	padding:0 5px;
 	margin:0 5px;
+	cursor:pointer;
 }
 div#leftPager, div#leftPager span{
 	float:left;
 	padding:0 5px;
 	margin:0 5px;
+	cursor:pointer;
 }
 div#currentPage{
 	width:20px;

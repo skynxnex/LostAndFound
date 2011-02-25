@@ -168,6 +168,10 @@ onload = function(){
         if (choice == "lost" || choice == "found") {
             sorter = choice;
         }
+        else
+            if (choice == "all") {
+                sorter = null;
+            }
         itemList = [];
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();

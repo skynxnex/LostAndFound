@@ -5,6 +5,7 @@ onload = function(){
     var mapLoaded = null;
     var itemList;
     var indexOfTopItem = 0;
+    var index = indexOfTopItem+1;
     var currentpage = 1;
     var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
     var photoId;
@@ -670,18 +671,22 @@ onload = function(){
         amount = Math.floor($("#sidebar").height() / 140);
         
         /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
-       /* if(index%amount != 0){
-			var index = indexOfTopItem+1;
-			for(var i = 0; i < amount; i++){
-				index-= 1;
-				if(index%amount == 0){
-					break;
+       
+       if(index%amount != 0){
+		   if(index != 1){
+				for(var i = 0; i < amount; i++){
+					index-= 1;
+					if(index%amount == 0){
+						break;
+					}
 				}
+				currentpage = index/amount;
 			}
-			update page properly
-			currentpage = index/amount;
-			indexOfTopItem = index-1;
-		}*/
+			
+			/*update page properly*/
+			console.debug(index, amount, currentpage);
+			console.debug("curr",currentpage);
+		}
         var numberOfItems = itemList.length;
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;

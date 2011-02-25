@@ -319,11 +319,13 @@ div#rightPager, div#rightPager span{
 	float:right;
 	padding:5px;
 	margin: 5px;
+	height: 20px;
 }
 div#leftPager, div#leftPager span{
 	float:left;
 	padding:5px;
 	margin: 5px;
+	height: 20px;
 }
 
 /* Togglers */

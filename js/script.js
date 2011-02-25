@@ -667,7 +667,7 @@ onload = function(){
         amount = Math.floor($("#sidebar").height() / 140);
         
         /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
-       /* if(index%amount != 0){
+       if(index%amount != 0){
 			var index = indexOfTopItem+1;
 			for(var i = 0; i < amount; i++){
 				index-= 1;
@@ -675,10 +675,10 @@ onload = function(){
 					break;
 				}
 			}
-			update page properly
+			/*update page properly*/
 			currentpage = index/amount;
 			indexOfTopItem = index-1;
-		}*/
+		}
         var numberOfItems = itemList.length;
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;

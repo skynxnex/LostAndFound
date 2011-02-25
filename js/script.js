@@ -5,6 +5,7 @@ onload = function(){
     var mapLoaded = null;
     var itemList;
     var indexOfTopItem = 0;
+    var index = indexOfTopItem+1;
     var currentpage = 1;
     var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
     var photoId;
@@ -13,7 +14,7 @@ onload = function(){
     /*
      * actions on load
      */
-    initialize();
+    createMap();
     updateViewPort();
     activateSortButtons();
     backupLocation();
@@ -28,16 +29,12 @@ onload = function(){
             $(this).css({
                 "background-position": backgroundX + "px -25px"
             });
-            // console.debug("hover prop
-            // on",$(this).css("background-position"));
         },
         off: function(){
             var backgroundX = $(this).css("background-position").split("px")[0];
             $(this).css({
                 "background-position": backgroundX + "px 0px"
             });
-            // console.debug("hover prop off",
-            // $(this).css("background-position"));
         }
     };
     
@@ -54,7 +51,7 @@ onload = function(){
     
 	
     /*
-     * toggle the sidebar
+     * toggle the footer
      */
     $("#footertoggler").toggle(function(){
         var backgroundY = $("#footertoggler").css("background-position").split("px ")[1];
@@ -101,9 +98,8 @@ onload = function(){
     /*
      * Make map and add listners
      */
-    function initialize(){
-        var latlng; // = new google.maps.LatLng(59.309888773597095,
-        // 18.050005859375005);
+    function createMap(){
+        var latlng; 
         var myOptions = {
             zoom: 11,
             center: latlng,
@@ -122,12 +118,10 @@ onload = function(){
         /* checks if map is loaded, if it is than update on drag */
 
         google.maps.event.addListener(map, 'dragend', function(){
-			console.debug("dragend");
             refreshPage("something");
         });
 
         google.maps.event.addListener(map, 'bounds_changed', function(){
-			console.debug("bounds_changed");
             refreshPage("something");
             google.maps.event.clearListeners(map, 'bounds_changed');
         });
@@ -166,12 +160,19 @@ onload = function(){
         });
     }
     /*
-     * Refreshes markers on map, takes lost and found changes default is all.
+     * Refreshes markers on maps cordinates, takes lost or/and found.
+     * the it calls db.php to do a request.
+     * restkt data is stored in itemList. 
+     * afterwords it calls drawmarkers() and pager()
      */
     function refreshPage(choice){
         if (choice == "lost" || choice == "found") {
             sorter = choice;
         }
+        else
+            if (choice == "all") {
+                sorter = null;
+            }
         itemList = [];
         var bounds = map.getBounds();
         var southWest = bounds.getSouthWest();
@@ -203,22 +204,15 @@ onload = function(){
         }
     }
     /*
-     * Clears all markers and print the current ones
+     * Clears all markers and print the new ones
+     * and adds events. last but not least they are stored in markersArray
+     * and a marker has the same index as a item has in itemList.
+     * do i dare say some kind of #map????
      */
     function drawMarkers(data){
 		
-             console.debug("1markersArray",markersArray.length)
         clearOverlays();
-        /* TODO dynamisk storlek för items i listan */
-        /*
-         * var screenheight = $(window).height();
-         *
-         * if(screenheight <= 300){ var screensize = 3; }else if(screenheight <=
-         * 600){ var screensize = 5; }else if(screenheight <= 10000){ var
-         * screensize = 8; }
-         */
 		
-             console.debug("2markersArray",markersArray.length)
         $.each(data, function(i, item){
             var point = new google.maps.LatLng(item.lat, item.long);
             
@@ -258,19 +252,11 @@ onload = function(){
             
         });
     };
-    /*
-     * function drawPaging(data){ if(page > 1 && page < data.length()){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<");
-     * $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-     * }else if(page == 1){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkForth").text(">");
-     * }else if(page == data.length()){ $("<a/>").appendTo("#sidebarfooter").addClass("pagelinkBack").text("<"); }
-     * if($(".pagelinkForth").click()){ page+=1; }
-     * if($(".pagelinkBack").click()){ page-=1; }
-     *
-     * var amount = $("#sidebar").height()/140; for(var i = page; i < amount ;
-     * i++){ var tempArray = new Array(); tempArray[] = data[i];
-     * drawAdds(tempArray); } }
-     *  /* Clear marker function
-     */
+	
+	/*
+	 * Clears every marker as is in the array
+	 * after it get flushed like yestedays dinner
+	 */
     function clearOverlays(){
         if (markersArray) {
             for (i in markersArray) {
@@ -282,6 +268,10 @@ onload = function(){
     
     /*
      * Gets your current position if user accepts it
+     * 
+     * This is currently inactivated because I wanted to throw 
+     * my computer at a wall. buggy as downsouth!!
+     * maby activate it by a button but not on starup!!!!!!
      *
      * if (navigator.geolocation) { browserSupportFlag = true;
      * navigator.geolocation.getCurrentPosition(function(position){ latlng = new
@@ -295,19 +285,25 @@ onload = function(){
      * doesn't support Geolocation } else { browserSupportFlag = false;
      * backupLocation(); }
      */
+	
+	
     /*
      * If user don't accept your location find by ip-location
+     * its not perfekt due too the ip adress often comes from a node
+     * but zoomlevel makes it hardly noticable
      */
     function backupLocation(){
         $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data){
             latlng = new google.maps.LatLng(data.geoplugin_latitude, data.geoplugin_longitude);
-            // console.debug(data.geoplugin_latitude, data.geoplugin_longitude);
             map.setCenter(latlng);
         });
     };
     
     /*
      * Update DOM sizes after window resizing
+     * if you dont add overflow hidden on windowed sized
+     * element you get at epeleptic jump when downscaling window
+     * nasty! 
      */
     function updateViewPort(){
         var viewPortHeight = $(window).height();
@@ -315,7 +311,7 @@ onload = function(){
         
         $("#map_canvas").css({
             "width": viewPortWidth,
-            "height": viewPortHeight
+            "height": viewPortHeight-10
         });
         if (viewPortWidth < 960) {
             if ($("#sidebarToggler").css("right") != 0) {
@@ -346,20 +342,16 @@ onload = function(){
         $("#page").css({
             "height": pageHeight
         });
-        $("map_canvas").css({
-            "height": viewPortHeight,
-            "width": viewPortWidth
-        });
         $("html").css({
-            "height": viewPortHeight,
+            "height": viewPortHeight-1,
             "width": viewPortWidth
         });
         $("body").css({
-            "height": viewPortHeight,
+            "height": viewPortHeight-1,
             "width": viewPortWidth
         });
         $("#container").css({
-            "height": viewPortHeight,
+            "height": viewPortHeight-1,
             "width": viewPortWidth
         });
 		
@@ -373,7 +365,8 @@ onload = function(){
         
     };
     /*
-     * Draw the new page
+     * Draw the new page 
+     * i is the index in itemList
      */
     function displayItemPage(i){
         clearPage();
@@ -382,7 +375,6 @@ onload = function(){
         text = "#item_text";
         contact = "#item_contact";
         
-        // console.debug("Sidans alla ojekt", i, itemList);
         
         $("<h2/>").text(itemList[i].lost_found + " : " + itemList[i].title).appendTo(title);
         if (itemList[i].item_picture_link != null) {
@@ -510,17 +502,23 @@ onload = function(){
         });
     }
     
+	/*
+	 * Draws all items that will fit in sidebar takes amount from pager. 
+	 * and adds events fore scaling, marker jumping, and page displayer
+	 * TODO Break out scaling to an separate function...
+	 * if this function was a book it would come out in volymes!!
+	 */
+	
     function drawSidebarItems(amount){
-		console.debug("darwside: ", "indexoftopitem: ", indexOfTopItem, "amount: ", amount );
-        $("#itemList").empty();
+		$("#itemList").empty();
         $("<ul id='itemListItems'/>").appendTo("#itemList");
         for (var i = indexOfTopItem; i < indexOfTopItem + amount; i++) {
+			
+            if (itemList[i]) {
         
             var tempLi = $("<li id='sidebarItem" + i + "'/>");
             
 			function markerBounce(i,tempLi){
-			console.debug("show me markers",i,tempLi,markersArray[i]);
-				console.debug("jump u basterds");
 				tempLi.hover(function(){
 					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
 				},function(){
@@ -587,13 +585,18 @@ onload = function(){
             $("#sidebarItem" + i).bind('click', {
                 index: i
             }, function(event){
-                // console.debug("i som skickas",event.data.index);
                 displayItemPage(event.data.index);
                 
             });
         };
+		};
             };
     
+	/*
+	 * this major function is scaling back thumbnails
+	 * if some one could make this code more sleek whold bee nice
+	 * comments a plenty to engage creativity 
+	 */
     function imageHoverOut(){
         $(this).each(function(){
             var maxWidth = 70; // Max width for the image
@@ -602,7 +605,6 @@ onload = function(){
             var width = $(this).css("width").split("px")[0]; // Current image width
             var height = $(this).css("height").split("px")[0]; // Current image height
             // Check if the current width is larger than the max
-            console.debug("before", width, height);
             
             // Check if current height is larger than max
             if (height > maxHeight) {
@@ -613,7 +615,6 @@ onload = function(){
                 }, 300); // Scale width based on ratio
                 height = maxHeight; // Reset height to match scaled image
                 width = width * ratio; // Reset width to match scaled image
-            	console.debug("height", width, height);
             }
             if (width > maxWidth) {
                 ratio = maxWidth / width; // get ratio for scaling image
@@ -623,11 +624,12 @@ onload = function(){
                 }, 100); // Scale width based on ratio
                 height = maxHeight; // Reset height to match scaled image
                 width = height * ratio; // Reset width to match scaled image
-            	console.debug("width", width, height);
             }
         });
     }
-    
+    /*
+     * function abnormus for scaling up a thumbnail...
+     */
     function imageHoverIn(){
         $(this).each(function(){
             var maxWidth = 260; // Max width for the image
@@ -660,48 +662,56 @@ onload = function(){
     
 	/*
 	 * Pager function that pages items and caculates current position in the paging navigation
-	 * */
+	 * calls drawSidebarItems()
+	 */
     function pager(){
         $("#leftPager").empty();
+        $("#currentPage").empty();
         $("#rightPager").empty();
         amount = Math.floor($("#sidebar").height() / 140);
         
         /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
+       
        if(index%amount != 0){
-			var index = indexOfTopItem+1;
-			for(var i = 0; i < amount; i++){
-				index-= 1;
-				if(index%amount == 0){
-					break;
+		   if(index != 1){
+				for(var i = 0; i < amount; i++){
+					index-= 1;
+					if(index%amount == 0){
+						break;
+					}
 				}
+				currentpage = index/amount;
 			}
+			
 			/*update page properly*/
-			currentpage = index/amount;
-			indexOfTopItem = index-1;
+			console.debug(index, amount, currentpage);
+			console.debug("curr",currentpage);
 		}
         var numberOfItems = itemList.length;
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;
-        //console.debug("Amount:", amount, $("#sidebar").height());
         
 		if(topPage != Infinity && topPage != 1){
 			$("<span/ class='pagebutton'>").text(1).appendTo("#leftPager").click(function(){
 				currentpage = 1;
-				indexOfTopItem = 1;
+				indexOfTopItem = 0;
 				pager();
 			});
 			if (currentpage > 1) {
 				$("<span/ class='pagebutton'>").text("Previous").appendTo("#leftPager").click(function(){
 					indexOfTopItem -= amount;
 					currentpage--;
-					console.debug("prev:",currentpage,indexOfTopItem);
+					if(indexOfTopItem<0||currentpage<1){
+						indexOfTopItem = 0;
+						currentpage=1;
+					}
 					pager();
 				});
 			}
+			$("<span/ class='current'>").text(currentpage).appendTo("#currentPage")
 			$("<span/ class='pagebutton'>").text(topPage).appendTo("#rightPager").click(function(){
 				currentpage = topPage;
 				indexOfTopItem = (topPage-1)*amount ;
-				console.debug("sista:",currentpage,indexOfTopItem);
 				pager();
 			});
 			if(currentpage < topPage) {

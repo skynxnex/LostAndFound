@@ -14,6 +14,7 @@ body {
 	font-size:1.0em;
 	color:#000;
 	font-family:Geneva, Arial, Helvetica, sans-serif;
+	overflow:hidden;
 }
 
 /* headers */
@@ -307,23 +308,22 @@ div#pager>span.pagebutton{
 	display:block;
 	cursor:pointer;
 }
-/*div#pager>span.minPage{
-	float:left;
-	padding-left:10px;
-}
-div#pager>span.maxPage{
-	float:right;
-	padding-right:10px;
-}*/
 div#rightPager, div#rightPager span{
 	float:right;
-	padding:5px;
-	margin: 5px;
+	padding:0 5px;
+	margin:0 5px;
 }
 div#leftPager, div#leftPager span{
 	float:left;
-	padding:5px;
-	margin: 5px;
+	padding:0 5px;
+	margin:0 5px;
+}
+div#currentPage{
+	width:20px;
+	padding:0 5px;
+	margin:0 auto;
+	text-align:center;
+	color:#c8c8c8;
 }
 
 /* Togglers */

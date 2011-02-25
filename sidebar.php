@@ -4,7 +4,8 @@
 		<div id="itemList">
 		
 		</div>
-			<div id="rightPager"></div>
 			<div id="leftPager"></div>
+			<div id="rightPager"></div>
+			<div id="currentPage"></div>
 		<div id="sidebarfooter"></div>
 </div>

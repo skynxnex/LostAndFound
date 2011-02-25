@@ -5,7 +5,6 @@ onload = function(){
     var mapLoaded = null;
     var itemList;
     var indexOfTopItem = 0;
-    var index = indexOfTopItem+1;
     var currentpage = 1;
     var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
     var photoId;
@@ -669,27 +668,26 @@ onload = function(){
         $("#currentPage").empty();
         $("#rightPager").empty();
         amount = Math.floor($("#sidebar").height() / 140);
+        var numberOfItems = itemList.length;
+        var topPage = Math.ceil(numberOfItems / amount);
+	    var slatt = numberOfItems % amount;
         
-        /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
-       
-       if(index%amount != 0){
-		   if(index != 1){
+        //bugfix
+        if((indexOfTopItem+1)%amount != 0){
+			var index = indexOfTopItem+1;
+			if(currentpage == topPage){
+				console.debug("fixad?");
+			}else if(currentpage != 1){
 				for(var i = 0; i < amount; i++){
 					index-= 1;
 					if(index%amount == 0){
+						console.debug("do them currentpage changes");
+						currentpage = index/amount+1;
 						break;
 					}
 				}
-				currentpage = index/amount;
 			}
-			
-			/*update page properly*/
-			console.debug(index, amount, currentpage);
-			console.debug("curr",currentpage);
 		}
-        var numberOfItems = itemList.length;
-        var topPage = Math.ceil(numberOfItems / amount);
-        var slatt = numberOfItems % amount;
         
 		if(topPage != Infinity && topPage != 1){
 			$("<span/ class='pagebutton'>").text(1).appendTo("#leftPager").click(function(){
@@ -723,16 +721,12 @@ onload = function(){
 			}
 		}
 		$("#sidebarfooter").empty();
-		/*$("<span/ class='pagebutton formbutton'>").text("NEW FORM").appendTo("#sidebarfooter").click(function(){
-			displayItemForm();
-		});*/
+
         if (currentpage == topPage && slatt != 0) {
             drawSidebarItems(slatt);
         }
         else {
             drawSidebarItems(amount);
         }
-        // alert(amount);
-        // alert(numberOfTopItem);
     }
 };

@@ -119,6 +119,10 @@ onload = function(){
         google.maps.event.addListener(map, 'dragend', function(){
             refreshPage("something");
         });
+        
+        google.maps.event.addListener(map, 'zoom_changed', function(){
+            refreshPage("something");
+        });
 
         google.maps.event.addListener(map, 'bounds_changed', function(){
             refreshPage("something");
@@ -521,7 +525,7 @@ onload = function(){
 				tempLi.hover(function(){
 					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
 				},function(){
-					markersArray[i].setAnimation(google.maps.Animation.null)
+					markersArray[i].setAnimation(null)
 				});
 			};
 			markerBounce(i,tempLi);

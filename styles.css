@@ -73,12 +73,21 @@ a {
 a:hover {
 	border-bottom:1px solid #333333;
 }
+div#project {
+	padding: 10px;
+	margin: 10px;
+	width: 40%;
+	float: left;
+}
+div#studentInfo {
+	padding: 10px;
+	margin: 10px;
+	width: 40%;
+	float: left;
+}
 div#footer a {
-	color:#ffffff;
 	text-decoration:none;
 	border:none;
-	background-color:#233C57;
-	padding:4px;
 }
 div#footer a:hover {
 	border:none;
@@ -370,7 +379,7 @@ div#sidebarfooter{
 div#footer p {
 	font-size:0.6em;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
-	text-align:center;
+	text-align: left;
 	margin:0;
 	padding:5px;
 }

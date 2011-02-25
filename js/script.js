@@ -5,7 +5,6 @@ onload = function(){
     var mapLoaded = null;
     var itemList;
     var indexOfTopItem = 0;
-    var index = indexOfTopItem+1;
     var currentpage = 1;
     var apiKey = '3a9d95e676b55f9ef5e844dcc98d6959';
     var photoId;
@@ -118,6 +117,10 @@ onload = function(){
         /* checks if map is loaded, if it is than update on drag */
 
         google.maps.event.addListener(map, 'dragend', function(){
+            refreshPage("something");
+        });
+        
+        google.maps.event.addListener(map, 'zoom_changed', function(){
             refreshPage("something");
         });
 
@@ -504,9 +507,9 @@ onload = function(){
     
 	/*
 	 * Draws all items that will fit in sidebar takes amount from pager. 
-	 * and adds events for scaling, marker jumping, and page displayer
-	 * TODO Break out scaling to a separate function...
-	 * if this function was a book it would come out in volumes!!
+	 * and adds events fore scaling, marker jumping, and page displayer
+	 * TODO Break out scaling to an separate function...
+	 * if this function was a book it would come out in volymes!!
 	 */
 	
     function drawSidebarItems(amount){
@@ -661,7 +664,7 @@ onload = function(){
     }
     
 	/*
-	 * Pager function that pages items and calculates current position in the paging navigation
+	 * Pager function that pages items and caculates current position in the paging navigation
 	 * calls drawSidebarItems()
 	 */
     function pager(){
@@ -671,22 +674,18 @@ onload = function(){
         amount = Math.floor($("#sidebar").height() / 140);
         
         /*If indexOfTopItem is out of order (window resize) set it to the closes topitem rounded down*/
-       
-       if(index%amount != 0){
-		   if(index != 1){
-				for(var i = 0; i < amount; i++){
-					index-= 1;
-					if(index%amount == 0){
-						break;
-					}
+       /* if(index%amount != 0){
+			var index = indexOfTopItem+1;
+			for(var i = 0; i < amount; i++){
+				index-= 1;
+				if(index%amount == 0){
+					break;
 				}
-				currentpage = index/amount;
 			}
-			
-			/*update page properly*/
-			console.debug(index, amount, currentpage);
-			console.debug("curr",currentpage);
-		}
+			update page properly
+			currentpage = index/amount;
+			indexOfTopItem = index-1;
+		}*/
         var numberOfItems = itemList.length;
         var topPage = Math.ceil(numberOfItems / amount);
         var slatt = numberOfItems % amount;

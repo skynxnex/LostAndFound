@@ -503,9 +503,9 @@ onload = function(){
     
 	/*
 	 * Draws all items that will fit in sidebar takes amount from pager. 
-	 * and adds events fore scaling, marker jumping, and page displayer
-	 * TODO Break out scaling to an separate function...
-	 * if this function was a book it would come out in volymes!!
+	 * and adds events for scaling, marker jumping, and page displayer
+	 * TODO Break out scaling to a separate function...
+	 * if this function was a book it would come out in volumes!!
 	 */
 	
     function drawSidebarItems(amount){
@@ -521,7 +521,7 @@ onload = function(){
 				tempLi.hover(function(){
 					markersArray[i].setAnimation(google.maps.Animation.BOUNCE)
 				},function(){
-					markersArray[i].setAnimation(google.maps.Animation.null)
+					markersArray[i].setAnimation(null)
 				});
 			};
 			markerBounce(i,tempLi);
@@ -660,7 +660,7 @@ onload = function(){
     }
     
 	/*
-	 * Pager function that pages items and caculates current position in the paging navigation
+	 * Pager function that pages items and calculates current position in the paging navigation
 	 * calls drawSidebarItems()
 	 */
     function pager(){
